@@ -906,14 +906,20 @@
 
     function initializeApplication() {
         if (!window.navigator.standalone && /iPhone|iPad|iPod/.test(navigator.userAgent)) {
-            document.getElementById('install-prompt-strip').style.display = "block";
+            const promptStrip = document.getElementById('install-prompt-strip');
+            if (promptStrip) promptStrip.style.display = "block";
         }
         setupAppleTouchIcon();
 
-        const cachedDb = localStorage.getItem('macpherson_premium_ledger');
+        // Using a v3 isolated cache key to eliminate any corrupted structure conflicts from Safari memory
+        const cachedDb = localStorage.getItem('macpherson_ledger_v3');
         if (cachedDb) {
             try {
                 dbInstance = JSON.parse(cachedDb);
+                // Confirm base structural nodes exist
+                if (!dbInstance.calendar || !dbInstance.strength || !dbInstance.prs) {
+                    loadFactoryDefaultLedger();
+                }
             } catch(e) {
                 loadFactoryDefaultLedger();
             }
@@ -926,21 +932,23 @@
     }
 
     function setupAppleTouchIcon() {
-        const canvas = document.createElement('canvas');
-        canvas.width = 180; canvas.height = 180;
-        const ctx = canvas.getContext('2d');
-        const gradient = ctx.createLinearGradient(0, 0, 180, 180);
-        gradient.addColorStop(0, '#1e3a8a'); gradient.addColorStop(1, '#3b82f6');
-        ctx.fillStyle = gradient; ctx.fillRect(0, 0, 180, 180);
-        ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.font = 'bold 68px -apple-system, sans-serif'; ctx.fillText('MP', 90, 80);
-        ctx.font = 'bold 24px -apple-system, sans-serif'; ctx.fillText('2026', 90, 135);
-        
-        let existingLink = document.querySelector("link[rel='apple-touch-icon']");
-        if (existingLink) document.head.removeChild(existingLink);
-        let link = document.createElement('link');
-        link.rel = 'apple-touch-icon'; link.href = canvas.toDataURL();
-        document.head.appendChild(link);
+        try {
+            const canvas = document.createElement('canvas');
+            canvas.width = 180; canvas.height = 180;
+            const ctx = canvas.getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 180, 180);
+            gradient.addColorStop(0, '#1e3a8a'); gradient.addColorStop(1, '#3b82f6');
+            ctx.fillStyle = gradient; ctx.fillRect(0, 0, 180, 180);
+            ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.font = 'bold 68px -apple-system, sans-serif'; ctx.fillText('MP', 90, 80);
+            ctx.font = 'bold 24px -apple-system, sans-serif'; ctx.fillText('2026', 90, 135);
+            
+            let existingLink = document.querySelector("link[rel='apple-touch-icon']");
+            if (existingLink && existingLink.parentNode) existingLink.parentNode.removeChild(existingLink);
+            let link = document.createElement('link');
+            link.rel = 'apple-touch-icon'; link.href = canvas.toDataURL();
+            document.head.appendChild(link);
+        } catch(e) { console.log("Icon build bypassed"); }
     }
 
     function loadFactoryDefaultLedger() {
@@ -951,8 +959,9 @@
     }
 
     function saveStateToStorage() {
-        localStorage.setItem('macpherson_premium_ledger', JSON.stringify(dbInstance));
-        document.getElementById('rawExportBox').value = JSON.stringify(dbInstance, null, 2);
+        localStorage.setItem('macpherson_ledger_v3', JSON.stringify(dbInstance));
+        const exportBox = document.getElementById('rawExportBox');
+        if (exportBox) exportBox.value = JSON.stringify(dbInstance, null, 2);
     }
 
     function factoryResetDatabase() {
@@ -967,19 +976,19 @@
         document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
         document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
         
-        document.getElementById(`view-${tabId}`).classList.add('active-view');
+        const targetView = document.getElementById(`view-${tabId}`);
+        if(targetView) targetView.classList.add('active-view');
         
-        // Sync mobile tab UI element state
         const targetMobileNav = document.getElementById(`nav-${tabId}`);
         if(targetMobileNav) targetMobileNav.classList.add('active');
 
-        // Sync desktop menu UI element state
         const targetDesktopNav = document.getElementById(`desk-nav-${tabId}`);
         if(targetDesktopNav) targetDesktopNav.classList.add('active');
     }
 
     function renderMonthSelectionTabs() {
         const box = document.getElementById('monthTabs');
+        if(!box) return;
         box.innerHTML = '';
         Object.keys(dbInstance.calendar).forEach(monthKey => {
             const pill = document.createElement('div');
@@ -997,285 +1006,195 @@
 
     function buildFormDropdowns() {
         const mSel = document.getElementById('f-month');
-        mSel.innerHTML = '';
-        Object.keys(dbInstance.calendar).forEach(m => mSel.innerHTML += `<option value="${m}">${m}</option>`);
-
+        if(mSel) {
+            mSel.innerHTML = '';
+            Object.keys(dbInstance.calendar).forEach(m => mSel.innerHTML += `<option value="${m}">${m}</option>`);
+        }
         const wSel = document.getElementById('f-week');
-        wSel.innerHTML = '';
-        for(let i=0; i<6; i++) { wSel.innerHTML += `<option value="${i}">Row Slot ${i+1}</option>`; }
+        if(wSel) {
+            wSel.innerHTML = '';
+            for(let i=0; i<6; i++) { wSel.innerHTML += `<option value="${i}">Row Slot ${i+1}</option>`; }
+        }
     }
 
     function toggleGymDay(dayId) {
         selectedGymDay = dayId;
         document.querySelectorAll('#gymDayTabs .month-pill').forEach(p => p.classList.remove('active'));
-        document.getElementById(`pill-${dayId}`).classList.add('active');
+        const targetPill = document.getElementById(`pill-${dayId}`);
+        if (targetPill) targetPill.classList.add('active');
         refreshPrimaryUI();
     }
 
     function refreshPrimaryUI() {
-        const monthData = dbInstance.calendar[currentActiveMonth];
-        document.getElementById('strat-month-lbl').innerText = `${currentActiveMonth} 2026 Focus Guidelines`;
-        document.getElementById('strat-desc-lbl').innerText = monthData.weeklyMiles;
+        const monthData = dbInstance.calendar[currentActiveMonth] || { weeklyMiles: "No Strategy Set", schedule: [] };
+        
+        const stratMonthLbl = document.getElementById('strat-month-lbl');
+        if(stratMonthLbl) stratMonthLbl.innerText = `${currentActiveMonth} 2026 Focus Guidelines`;
+        
+        const stratDescLbl = document.getElementById('strat-desc-lbl');
+        if(stratDescLbl) stratDescLbl.innerText = monthData.weeklyMiles;
 
         // Render Calendar Schedule Tab Details
         const stackContainer = document.getElementById('calendarStackContainer');
-        stackContainer.innerHTML = '';
+        if(stackContainer) {
+            stackContainer.innerHTML = '';
+            monthData.schedule.forEach((weekRow, wIdx) => {
+                const card = document.createElement('div');
+                card.className = 'week-card';
+                card.innerHTML = `<div class="week-card-header"><span>Slot: ${weekRow.label || 'Workout Row'}</span><span style="font-size:0.75rem; color:var(--text-muted);">Row Entry ${wIdx+1}</span></div>`;
 
-        monthData.schedule.forEach((weekRow, wIdx) => {
-            const card = document.createElement('div');
-            card.className = 'week-card';
-            card.innerHTML = `<div class="week-card-header"><span>Slot: ${weekRow.label}</span><span style="font-size:0.75rem; color:var(--text-muted);">Row Entry ${wIdx+1}</span></div>`;
-
-            dayKeys.forEach(day => {
-                const dayData = weekRow[day];
-                const strip = document.createElement('div');
-                
-                if (dayData && typeof dayData === 'object' && dayData.text) {
-                    strip.className = `day-strip item-clickable day-strip-item active-${dayData.type}`;
+                dayKeys.forEach(day => {
+                    const dayData = weekRow[day];
+                    const strip = document.createElement('div');
                     
-                    let dataLayout = '';
-                    if (dayData.pace || dayData.hr || dayData.rpe || dayData.stride || dayData.elev || dayData.pain || dayData.weather || dayData.humidity) {
-                        dataLayout = `
-                            <div class="metrics-grid-view">
-                                <div class="metric-cell"><span class="m-lbl">Actual/Vol</span><span class="m-val">${dayData.pace || '---'}</span></div>
-                                <div class="metric-cell"><span class="m-lbl">Avg HR</span><span class="m-val">${dayData.hr || '---'}</span></div>
-                                <div class="metric-cell"><span class="m-lbl">RPE/Stride</span><span class="m-val">${dayData.rpe || '---'} / ${dayData.stride || '---'}</span></div>
-                                <div class="metric-cell"><span class="m-lbl">Gain</span><span class="m-val">${dayData.elev || '---'}</span></div>
-                                <div class="metric-cell"><span class="m-lbl">Pain Flag</span><span class="m-val" style="color:${parseInt(dayData.pain)>4?'#ef4444':'inherit'}">${dayData.pain || '0'}/10</span></div>
-                                <div class="metric-cell"><span class="m-lbl">Weather/Hum</span><span class="m-val">${dayData.weather || '---'} (${dayData.humidity || '—'})</span></div>
+                    if (dayData && typeof dayData === 'object' && dayData.text) {
+                        strip.className = `day-strip item-clickable day-strip-item active-${dayData.type || 'rest'}`;
+                        
+                        let dataLayout = '';
+                        if (dayData.pace || dayData.hr || dayData.rpe || dayData.stride || dayData.elev || dayData.pain || dayData.weather || dayData.humidity) {
+                            dataLayout = `
+                                <div class="metrics-grid-view">
+                                    <div class="metric-cell"><span class="m-lbl">Actual/Vol</span><span class="m-val">${dayData.pace || '---'}</span></div>
+                                    <div class="metric-cell"><span class="m-lbl">Avg HR</span><span class="m-val">${dayData.hr || '---'}</span></div>
+                                    <div class="metric-cell"><span class="m-lbl">RPE/Stride</span><span class="m-val">${dayData.rpe || '---'} / ${dayData.stride || '---'}</span></div>
+                                    <div class="metric-cell"><span class="m-lbl">Gain</span><span class="m-val">${dayData.elev || '---'}</span></div>
+                                    <div class="metric-cell"><span class="m-lbl">Pain Flag</span><span class="m-val" style="color:${parseInt(dayData.pain || 0, 10)>4?'#ef4444':'inherit'}">${dayData.pain || '0'}/10</span></div>
+                                    <div class="metric-cell"><span class="m-lbl">Weather/Hum</span><span class="m-val">${dayData.weather || '---'} (${dayData.humidity || '—'})</span></div>
+                                </div>
+                            `;
+                        }
+                        
+                        let commentLayout = dayData.comments ? `<div class="comment-block"><b>Notes:</b> ${dayData.comments}</div>` : '';
+
+                        strip.innerHTML = `
+                            <div class="day-meta-line">
+                                <span class="day-name">${dayNameMap[day]}</span>
+                                <span class="day-badge" style="background:var(--bg-${dayData.type || 'rest'})">${dayData.type || 'rest'}</span>
+                            </div>
+                            <div class="day-protocol">${dayData.text}</div>
+                            ${dataLayout}
+                            ${commentLayout}
+                        `;
+                        strip.onclick = () => launchEditSessionSheet(currentActiveMonth, wIdx, day, dayData);
+                    } else {
+                        strip.className = 'day-strip-item';
+                        strip.innerHTML = `
+                            <div class="day-meta-line" style="color:var(--text-muted); font-weight:500;">
+                                <span>${dayNameMap[day]}</span>
+                                <span style="font-size:0.75rem; font-weight:700; color:var(--primary); cursor:pointer;" onclick="launchDirectAddSlot('${currentActiveMonth}', ${wIdx}, '${day}')">+ Add Entry</span>
                             </div>
                         `;
                     }
-                    
-                    let commentLayout = dayData.comments ? `<div class="comment-block"><b>Notes:</b> ${dayData.comments}</div>` : '';
-
-                    strip.innerHTML = `
-                        <div class="day-meta-line">
-                            <span class="day-name">${dayNameMap[day]}</span>
-                            <span class="day-badge" style="background:var(--bg-${dayData.type})">${dayData.type}</span>
-                        </div>
-                        <div class="day-protocol">${dayData.text}</div>
-                        ${dataLayout}
-                        ${commentLayout}
-                    `;
-                    strip.onclick = () => launchEditSessionSheet(currentActiveMonth, wIdx, day, dayData);
-                } else {
-                    strip.className = 'day-strip-item';
-                    strip.innerHTML = `
-                        <div class="day-meta-line" style="color:var(--text-muted); font-weight:500;">
-                            <span>${dayNameMap[day]}</span>
-                            <span style="font-size:0.75rem; font-weight:700; color:var(--primary); cursor:pointer;" onclick="launchDirectAddSlot('${currentActiveMonth}', ${wIdx}, '${day}')">+ Add Entry</span>
-                        </div>
-                    `;
-                }
-                card.appendChild(strip);
+                    card.appendChild(strip);
+                });
+                stackContainer.appendChild(card);
             });
-            stackContainer.appendChild(card);
-        });
+        }
 
         // Render Multi-Week Spreadsheet Style Strength Cards
         const gymContainer = document.getElementById('gymExercisesContainer');
-        gymContainer.innerHTML = '';
-        dbInstance.strength[selectedGymDay].forEach((ex, idx) => {
-            const exCard = document.createElement('div');
-            exCard.className = 'gym-ex-card';
-            exCard.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                    <div style="padding-right: 8px;">
-                        <div class="gym-ex-title">${ex.name}</div>
-                        <div class="gym-ex-sub">${ex.target} | Specs: ${ex.sets}x${ex.reps}</div>
+        if(gymContainer && dbInstance.strength[selectedGymDay]) {
+            gymContainer.innerHTML = '';
+            dbInstance.strength[selectedGymDay].forEach((ex, idx) => {
+                const exCard = document.createElement('div');
+                exCard.className = 'gym-ex-card';
+                exCard.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                        <div style="padding-right: 8px;">
+                            <div class="gym-ex-title">${ex.name}</div>
+                            <div class="gym-ex-sub">${ex.target || 'Gym Split'} | Specs: ${ex.sets || '3'}x${ex.reps || '12'}</div>
+                        </div>
+                        <button onclick="launchGymEditSheet('${selectedGymDay}', ${idx})" style="background:#e2e8f0; border:none; padding:6px 12px; font-weight:700; font-size:0.75rem; border-radius:6px; color:var(--dark); cursor:pointer;">Edit Weights</button>
                     </div>
-                    <button onclick="launchGymEditSheet('${selectedGymDay}', ${idx})" style="background:#e2e8f0; border:none; padding:6px 12px; font-weight:700; font-size:0.75rem; border-radius:6px; color:var(--dark); cursor:pointer;">Edit Weights</button>
-                </div>
-                <div class="gym-weeks-grid">
-                    <div class="gym-week-box"><div class="w-num">Wk 1</div><div class="w-val">${ex.w1 || '—'}</div></div>
-                    <div class="gym-week-box"><div class="w-num">Wk 2</div><div class="w-val">${ex.w2 || '—'}</div></div>
-                    <div class="gym-week-box"><div class="w-num">Wk 3</div><div class="w-val">${ex.w3 || '—'}</div></div>
-                    <div class="gym-week-box"><div class="w-num">Wk 4</div><div class="w-val">${ex.w4 || '—'}</div></div>
-                </div>
-                ${ex.cue ? `<div class="comment-block" style="margin-top:8px; border-style:dashed;"><b>Form Cue:</b> ${ex.cue}</div>` : ''}
-            `;
-            gymContainer.appendChild(exCard);
-        });
+                    <div class="gym-weeks-grid">
+                        <div class="gym-week-box"><div class="w-num">Wk 1</div><div class="w-val">${ex.w1 || '—'}</div></div>
+                        <div class="gym-week-box"><div class="w-num">Wk 2</div><div class="w-val">${ex.w2 || '—'}</div></div>
+                        <div class="gym-week-box"><div class="w-num">Wk 3</div><div class="w-val">${ex.w3 || '—'}</div></div>
+                        <div class="gym-week-box"><div class="w-num">Wk 4</div><div class="w-val">${ex.w4 || '—'}</div></div>
+                    </div>
+                    ${ex.cue ? `<div class="comment-block" style="margin-top:8px; border-style:dashed;"><b>Form Cue:</b> ${ex.cue}</div>` : ''}
+                `;
+                gymContainer.appendChild(exCard);
+            });
+        }
 
         // Render Milestones Book
         const prContainer = document.getElementById('prListContainer');
-        prContainer.innerHTML = '';
-        dbInstance.prs.forEach((pr, pIdx) => {
-            const itemRow = document.createElement('div');
-            itemRow.className = 'week-card';
-            itemRow.style.display = 'flex';
-            itemRow.style.justifyContent = 'space-between';
-            itemRow.style.alignItems = 'center';
-            itemRow.innerHTML = `
-                <div style="max-width:70%;">
-                    <div style="font-weight:800; font-size:0.95rem; color:var(--dark);">${pr.item}</div>
-                    <div style="font-size:0.75rem; color:var(--text-muted); font-style:italic;">${pr.lineage}</div>
-                </div>
-                <div style="text-align:right;">
-                    <div style="font-size:1.1rem; font-weight:900; color:var(--bg-race);">${pr.record}</div>
-                    <button onclick="triggerPrUpdate(${pIdx})" style="border:none; background:none; text-decoration:underline; font-size:0.75rem; color:var(--primary); font-weight:700; cursor:pointer;">Update</button>
-                </div>
-            `;
-            prContainer.appendChild(itemRow);
-        });
+        if(prContainer) {
+            prContainer.innerHTML = '';
+            dbInstance.prs.forEach((pr, pIdx) => {
+                const itemRow = document.createElement('div');
+                itemRow.className = 'week-card';
+                itemRow.style.display = 'flex';
+                itemRow.style.justifyContent = 'space-between';
+                itemRow.style.alignItems = 'center';
+                itemRow.innerHTML = `
+                    <div style="max-width:70%;">
+                        <div style="font-weight:800; font-size:0.95rem; color:var(--dark);">${pr.item}</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); font-style:italic;">${pr.lineage || 'Personal Best Record'}</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:1.1rem; font-weight:900; color:var(--bg-race);">${pr.record}</div>
+                        <button onclick="triggerPrUpdate(${pIdx})" style="border:none; background:none; text-decoration:underline; font-size:0.75rem; color:var(--primary); font-weight:700; cursor:pointer;">Update</button>
+                    </div>
+                `;
+                prContainer.appendChild(itemRow);
+            });
+        }
 
-        document.getElementById('rawExportBox').value = JSON.stringify(dbInstance, null, 2);
+        const exportBox = document.getElementById('rawExportBox');
+        if (exportBox) exportBox.value = JSON.stringify(dbInstance, null, 2);
     }
 
     function triggerAddModal() {
-        document.getElementById('sessionForm').reset();
-        document.getElementById('modalTitle').innerText = "Log Workout Entry";
-        document.getElementById('f-isEdit').value = "false";
-        document.getElementById('f-month').value = currentActiveMonth;
-        document.getElementById('f-delete-btn').style.display = "none";
-        document.getElementById('sessionModal').style.display = "flex";
+        const form = document.getElementById('sessionForm');
+        if(form) form.reset();
+        
+        const mTitle = document.getElementById('modalTitle');
+        if(mTitle) mTitle.innerText = "Log Workout Entry";
+        
+        const isEditInput = document.getElementById('f-isEdit');
+        if(isEditInput) isEditInput.value = "false";
+        
+        const mInput = document.getElementById('f-month');
+        if(mInput) mInput.value = currentActiveMonth;
+        
+        const dBtn = document.getElementById('f-delete-btn');
+        if(dBtn) dBtn.style.display = "none";
+        
+        const mOverlay = document.getElementById('sessionModal');
+        if(mOverlay) mOverlay.style.display = "flex";
     }
 
     function launchDirectAddSlot(month, weekIdx, day) {
         triggerAddModal();
-        document.getElementById('f-month').value = month;
-        document.getElementById('f-week').value = weekIdx;
-        document.getElementById('f-day').value = day;
+        const mInput = document.getElementById('f-month'); if(mInput) mInput.value = month;
+        const wInput = document.getElementById('f-week'); if(wInput) wInput.value = weekIdx;
+        const dInput = document.getElementById('f-day'); if(dInput) dInput.value = day;
     }
 
     function launchEditSessionSheet(month, weekIdx, day, dataObj) {
-        document.getElementById('modalTitle').innerText = "Modify Active Entry Metrics";
-        document.getElementById('f-isEdit').value = "true";
-        document.getElementById('f-origMonth').value = month;
-        document.getElementById('f-origWeek').value = weekIdx;
-        document.getElementById('f-origDay').value = day;
+        const mTitle = document.getElementById('modalTitle'); if(mTitle) mTitle.innerText = "Modify Active Entry Metrics";
+        const isEditInput = document.getElementById('f-isEdit'); if(isEditInput) isEditInput.value = "true";
+        const oMonth = document.getElementById('f-origMonth'); if(oMonth) oMonth.value = month;
+        const oWeek = document.getElementById('f-origWeek'); if(oWeek) oWeek.value = weekIdx;
+        const oDay = document.getElementById('f-origDay'); if(oDay) oDay.value = day;
 
-        document.getElementById('f-month').value = month;
-        document.getElementById('f-week').value = weekIdx;
-        document.getElementById('f-day').value = day;
-        document.getElementById('f-type').value = dataObj.type;
-        document.getElementById('f-text').value = dataObj.text;
+        const mInput = document.getElementById('f-month'); if(mInput) mInput.value = month;
+        const wInput = document.getElementById('f-week'); if(wInput) wInput.value = weekIdx;
+        const dInput = document.getElementById('f-day'); if(dInput) dInput.value = day;
+        const tInput = document.getElementById('f-type'); if(tInput) tInput.value = dataObj.type || 'run';
+        const txtInput = document.getElementById('f-text'); if(txtInput) txtInput.value = dataObj.text || '';
         
-        document.getElementById('f-pace').value = dataObj.pace || '';
-        document.getElementById('f-hr').value = dataObj.hr || '';
-        document.getElementById('f-rpe').value = dataObj.rpe || '';
-        document.getElementById('f-stride').value = dataObj.stride || '';
-        document.getElementById('f-elev').value = dataObj.elev || '';
-        document.getElementById('f-pain').value = dataObj.pain || '';
-        document.getElementById('f-weather').value = dataObj.weather || '';
-        document.getElementById('f-humidity').value = dataObj.humidity || '';
-        document.getElementById('f-comments').value = dataObj.comments || '';
+        const pace = document.getElementById('f-pace'); if(pace) pace.value = dataObj.pace || '';
+        const hr = document.getElementById('f-hr'); if(hr) hr.value = dataObj.hr || '';
+        const rpe = document.getElementById('f-rpe'); if(rpe) rpe.value = dataObj.rpe || '';
+        const stride = document.getElementById('f-stride'); if(stride) stride.value = dataObj.stride || '';
+        const elev = document.getElementById('f-elev'); if(elev) elev.value = dataObj.elev || '';
+        const pain = document.getElementById('f-pain'); if(pain) pain.value = dataObj.pain || '';
+        const weather = document.getElementById('f-weather'); if(weather) weather.value = dataObj.weather || '';
+        const humidity = document.getElementById('f-humidity'); if(humidity) humidity.value = dataObj.humidity || '';
+        const comments = document.getElementById('f-comments'); if(comments) comments.value = dataObj.comments || '';
 
-        document.getElementById('f-delete-btn').style.display = "block";
-        document.getElementById('sessionModal').style.display = "flex";
-    }
-
-    function launchGymEditSheet(dayType, index) {
-        const targetExercise = dbInstance.strength[dayType][index];
-        document.getElementById('g-type').value = dayType;
-        document.getElementById('g-idx').value = index;
-        document.getElementById('g-name').value = targetExercise.name;
-        document.getElementById('g-sets').value = targetExercise.sets;
-        document.getElementById('g-reps').value = targetExercise.reps;
-        document.getElementById('g-w1').value = targetExercise.w1 || '';
-        document.getElementById('g-w2').value = targetExercise.w2 || '';
-        document.getElementById('g-w3').value = targetExercise.w3 || '';
-        document.getElementById('g-w4').value = targetExercise.w4 || '';
-        document.getElementById('g-cue').value = targetExercise.cue || '';
-        document.getElementById('gymModal').style.display = "flex";
-    }
-
-    function closeSheetModal(id) { document.getElementById(id).style.display = "none"; }
-
-    function commitSessionForm(e) {
-        e.preventDefault();
-        const isEdit = document.getElementById('f-isEdit').value === "true";
-        const month = document.getElementById('f-month').value;
-        const week = parseInt(document.getElementById('f-week').value, 10);
-        const day = document.getElementById('f-day').value;
-
-        if (isEdit) {
-            const oM = document.getElementById('f-origMonth').value;
-            const oW = parseInt(document.getElementById('f-origWeek').value, 10);
-            const oD = document.getElementById('f-origDay').value;
-            dbInstance.calendar[oM].schedule[oW][oD] = "";
-        }
-
-        // Integrity check to ensure week array structure matching
-        while (dbInstance.calendar[month].schedule.length <= week) {
-            dbInstance.calendar[month].schedule.push({ id: "WX", label: "Custom Range", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:"" });
-        }
-
-        dbInstance.calendar[month].schedule[week][day] = {
-            type: document.getElementById('f-type').value,
-            text: document.getElementById('f-text').value,
-            pace: document.getElementById('f-pace').value,
-            hr: document.getElementById('f-hr').value,
-            rpe: document.getElementById('f-rpe').value,
-            stride: document.getElementById('f-stride').value,
-            elev: document.getElementById('f-elev').value,
-            pain: document.getElementById('f-pain').value,
-            weather: document.getElementById('f-weather').value,
-            humidity: document.getElementById('f-humidity').value,
-            comments: document.getElementById('f-comments').value
-        };
-
-        saveStateToStorage(); closeSheetModal('sessionModal'); currentActiveMonth = month; renderMonthSelectionTabs(); refreshPrimaryUI();
-    }
-
-    function executeDeleteSession() {
-        if(confirm("Confirm deletion of this workout record?")) {
-            const oM = document.getElementById('f-origMonth').value;
-            const oW = parseInt(document.getElementById('f-origWeek').value, 10);
-            const oD = document.getElementById('f-origDay').value;
-            dbInstance.calendar[oM].schedule[oW][oD] = "";
-            saveStateToStorage(); closeSheetModal('sessionModal'); refreshPrimaryUI();
-        }
-    }
-
-    function commitGymForm(e) {
-        e.preventDefault();
-        const type = document.getElementById('g-type').value;
-        const idx = parseInt(document.getElementById('g-idx').value, 10);
-        
-        dbInstance.strength[type][idx].sets = document.getElementById('g-sets').value;
-        dbInstance.strength[type][idx].reps = document.getElementById('g-reps').value;
-        dbInstance.strength[type][idx].w1 = document.getElementById('g-w1').value;
-        dbInstance.strength[type][idx].w2 = document.getElementById('g-w2').value;
-        dbInstance.strength[type][idx].w3 = document.getElementById('g-w3').value;
-        dbInstance.strength[type][idx].w4 = document.getElementById('g-w4').value;
-        dbInstance.strength[type][idx].cue = document.getElementById('g-cue').value;
-
-        saveStateToStorage(); closeSheetModal('gymModal'); refreshPrimaryUI();
-    }
-
-    function triggerPrUpdate(index) {
-        const newVal = prompt(`Update value record for ${dbInstance.prs[index].item}:`, dbInstance.prs[index].record);
-        if (newVal !== null) {
-            dbInstance.prs[index].record = newVal;
-            const newContext = prompt("Update context or lineage reference date:", dbInstance.prs[index].lineage);
-            if (newContext !== null) dbInstance.prs[index].lineage = newContext;
-            saveStateToStorage(); refreshPrimaryUI();
-        }
-    }
-
-    function executeClipboardCopy() {
-        const targetArea = document.getElementById('rawExportBox');
-        targetArea.select(); targetArea.setSelectionRange(0, 99999);
-        navigator.clipboard.writeText(targetArea.value);
-        alert("Ledger database string safely duplicated to clipboard! Paste inside Apple Notes.");
-    }
-
-    function executeLedgerImport() {
-        const inputString = document.getElementById('rawImportBox').value.trim();
-        try {
-            const parsedObj = JSON.parse(inputString);
-            if (parsedObj.calendar && parsedObj.strength && parsedObj.prs) {
-                dbInstance = parsedObj;
-                saveStateToStorage(); refreshPrimaryUI();
-                alert("Database state validation passed. UI updated seamlessly.");
-                document.getElementById('rawImportBox').value = '';
-            } else { alert("Malformed structure format. Verification rejected."); }
-        } catch(err) { alert("Parsing error. Ensure data layout is uncorrupted JSON."); }
-    }
-
-    window.onload = initializeApplication;
-</script>
-</body>
-</html>
+        const dBtn = document.getElementById('f-delete-btn'); if(dBtn) dBtn.style.display = "block";
+        const mOverlay =
