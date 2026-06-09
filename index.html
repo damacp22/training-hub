@@ -336,4 +336,946 @@
             color: var(--text-muted);
             text-transform: uppercase;
         }
-        .gym-week-box
+        .gym-week-box .w-val {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+
+        /* Fixed Mobile Footer Tab Bar Controller */
+        .ios-tab-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: calc(64px + env(safe-area-inset-bottom));
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding-bottom: env(safe-area-inset-bottom);
+            z-index: 1000;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 0.65rem;
+            font-weight: 700;
+            width: 25%;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .tab-item.active {
+            color: var(--primary);
+        }
+        .tab-item svg {
+            width: 22px;
+            height: 22px;
+            margin-bottom: 2px;
+            transition: transform 0.2s;
+        }
+        .tab-item:active svg {
+            transform: scale(0.9);
+        }
+
+        .app-view { display: none; }
+        .app-view.active-view { display: block; }
+
+        /* Responsive Modal Sheet Engine Setup */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: flex-end; /* Mobile default bottom pull */
+        }
+        .modal-sheet {
+            background: white;
+            width: 100%;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            padding: 20px;
+            padding-bottom: calc(20px + env(safe-area-inset-bottom));
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+            max-height: 88vh;
+            overflow-y: auto;
+        }
+
+        .form-group { margin-bottom: 14px; }
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            background: #f8fafc;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            color: var(--dark);
+        }
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .submit-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+            cursor: pointer;
+        }
+
+        #install-prompt-strip {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #1e40af;
+            margin-bottom: 16px;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* ---------------------------------------------------
+           DESKTOP LARGE DISPLAY MEDIA INJECTIONS
+           --------------------------------------------------- */
+        @media (min-width: 850px) {
+            body {
+                padding-top: 30px;
+                padding-bottom: 30px;
+                padding-left: 24px;
+                padding-right: 24px;
+                background-color: #f8fafc;
+            }
+
+            /* Enable side-by-side app canvas architecture */
+            .app-layout {
+                display: grid;
+                grid-template-columns: 280px 1fr;
+                gap: 24px;
+                align-items: start;
+            }
+
+            /* Reveal Desktop Side Column Panel */
+            .desktop-sidebar {
+                display: flex;
+                flex-direction: column;
+                background: white;
+                border-radius: 16px;
+                padding: 24px;
+                border: 1px solid var(--border);
+                position: sticky;
+                top: 30px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            }
+
+            .sidebar-brand {
+                font-size: 1.3rem;
+                font-weight: 900;
+                color: var(--primary);
+                margin-bottom: 4px;
+                letter-spacing: -0.5px;
+            }
+
+            .sidebar-sub {
+                font-size: 0.8rem;
+                color: var(--text-muted);
+                margin-bottom: 24px;
+                padding-bottom: 16px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .sidebar-menu {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .sidebar-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 16px;
+                color: #475569;
+                font-weight: 700;
+                font-size: 0.9rem;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.15s ease;
+            }
+            .sidebar-item svg {
+                width: 20px;
+                height: 20px;
+                fill: currentColor;
+            }
+            .sidebar-item:hover {
+                background: #f1f5f9;
+                color: var(--dark);
+            }
+            .sidebar-item.active {
+                background: var(--primary);
+                color: white;
+            }
+
+            /* Hide mobile standalone touch footer */
+            .ios-tab-bar {
+                display: none !important;
+            }
+
+            /* Reflow views into grid matrices */
+            .calendar-grid-stack {
+                grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
+            }
+
+            .gym-grid-stack {
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            }
+
+            .month-scroller {
+                flex-wrap: wrap; /* Wrap pills instead of hiding via scroll */
+                overflow-x: visible;
+            }
+
+            /* Center lightbox overlay configuration for large desktop viewports */
+            .modal-overlay {
+                align-items: center;
+            }
+            .modal-sheet {
+                width: 100%;
+                max-width: 620px;
+                border-radius: 16px;
+                padding-bottom: 24px;
+                max-height: 85vh;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div id="install-prompt-strip">📲 <b>iPhone Home Screen Setup:</b> Tap the Safari Share button below, then choose <b>"Add to Home Screen"</b> for a borderless fullscreen view!</div>
+
+    <div class="app-layout">
+        
+        <aside class="desktop-sidebar">
+            <div class="sidebar-brand">MacPherson Hub</div>
+            <div class="sidebar-sub">2026 Sub-2hr Plan Ledger</div>
+            
+            <nav class="sidebar-menu">
+                <div class="sidebar-item active" id="desk-nav-calendar" onclick="navigateToTab('calendar')">
+                    <svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14V20zm0-12H5V6h14v2z"/></svg>
+                    <span>Training Schedule</span>
+                </div>
+                <div class="sidebar-item" id="desk-nav-strength" onclick="navigateToTab('strength')">
+                    <svg viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43l-2.83-2.83-1.41 1.41 1.41 1.42-3.53 3.53-3.54-3.54 1.42-1.41-1.42-1.42L9.29 13l1.41 1.42-2.12 2.12-1.42-1.42L5.76 16.5l2.83 2.83 1.41-1.41-1.41-1.42 2.12-2.12 3.54 3.54-1.42 1.41 1.42 1.42 3.53-3.54 1.42 1.42 1.41-1.41-1.42-1.42zM4 9c0 1.1.9 2 2 2s2-.9 2-2-.9-2-2-2-2 .9-2 2z"/></svg>
+                    <span>Strength Matrix</span>
+                </div>
+                <div class="sidebar-item" id="desk-nav-prs" onclick="navigateToTab('prs')">
+                    <svg viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.99 5.99 0 0011 15.9V19H7v2h10v-2h-4v-3.1a5.99 5.99 0 004.61-2.96C20.08 11.63 22 9.55 22 7V6c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+                    <span>Milestone Ledger</span>
+                </div>
+                <div class="sidebar-item" id="desk-nav-sync" onclick="navigateToTab('sync')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+                    <span>Ledger Vault</span>
+                </div>
+            </nav>
+            
+            <div class="strategy-banner" style="margin-top:24px; margin-bottom:0; box-shadow:none; padding:12px;">
+                <div class="title" style="font-size:0.65rem;">System Cache</div>
+                <div class="desc" id="sidebar-storage-msg" style="font-size:0.8rem; color:var(--secondary);">Sync Integrity Verified</div>
+            </div>
+        </aside>
+
+        <main style="flex: 1; min-width: 0;">
+            <header>
+                <h1>MacPherson Training Hub</h1>
+                <p>Sub-2hr Half-Marathon Architecture</p>
+                <div class="target-badge">Pace Goal: 09:01 /mi</div>
+            </header>
+
+            <div id="view-calendar" class="app-view active-view">
+                <div class="month-scroller" id="monthTabs"></div>
+                <div class="strategy-banner">
+                    <div class="title" id="strat-month-lbl">Active Month Strategy</div>
+                    <div class="desc" id="strat-desc-lbl">Loading training guidelines...</div>
+                </div>
+                <button class="submit-btn" style="background: var(--secondary); margin-bottom: 20px; box-shadow:none; max-width:280px;" onclick="triggerAddModal()">+ Log Active Protocol</button>
+                <div id="calendarStackContainer" class="calendar-grid-stack"></div>
+            </div>
+
+            <div id="view-strength" class="app-view">
+                <div class="month-scroller" id="gymDayTabs">
+                    <div class="month-pill active" id="pill-push" onclick="toggleGymDay('push')">Tuesday Push Day</div>
+                    <div class="month-pill" id="pill-pull" onclick="toggleGymDay('pull')">Thursday Pull Day</div>
+                    <div class="month-pill" id="pill-leg" onclick="toggleGymDay('leg')">Saturday Leg Day</div>
+                </div>
+                <div id="gymExercisesContainer" class="gym-grid-stack"></div>
+            </div>
+
+            <div id="view-prs" class="app-view">
+                <div class="strategy-banner" style="border-left-color: var(--bg-race)">
+                    <div class="title">Active Record Ledger</div>
+                    <div class="desc">Top validated personal bests across the current training arc.</div>
+                </div>
+                <div id="prListContainer" class="gym-grid-stack"></div>
+            </div>
+
+            <div id="view-sync" class="app-view">
+                <div class="week-card">
+                    <h3 style="font-weight:800; font-size:1.1rem; margin-bottom:8px;">💾 Database Ledger Copy</h3>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Copy this serialized string and save it inside Apple Notes to secure your logs indefinitely.</p>
+                    <textarea id="rawExportBox" class="form-input" rows="8" readonly style="font-family:monospace; font-size:0.7rem; background:#fff; white-space:pre;"></textarea>
+                    <button class="submit-btn" onclick="executeClipboardCopy()" style="background:var(--secondary); box-shadow:none; max-width:250px;">Copy Ledger Text</button>
+                    
+                    <div style="margin-top:24px; border-top:1px solid var(--border); padding-top:16px;">
+                        <h3 style="font-weight:800; font-size:1.1rem; color:#ef4444; margin-bottom:4px;">Inject External Ledger Backup</h3>
+                        <textarea id="rawImportBox" class="form-input" rows="3" placeholder="Paste ledger text string here..."></textarea>
+                        <button class="submit-btn" onclick="executeLedgerImport()" style="background:#ef4444; box-shadow:none; max-width:280px;">Override & Restore Database</button>
+                    </div>
+                    <button onclick="factoryResetDatabase()" style="display:block; margin:20px 0 0 0; color:#ef4444; font-size:0.8rem; font-weight:700; background:none; border:none; text-decoration:underline; cursor:pointer;">Revert System to PDF Factory Settings</button>
+                </div>
+            </div>
+        </main>
+
+    </div>
+</div>
+
+<div class="ios-tab-bar">
+    <div class="tab-item active" id="nav-calendar" onclick="navigateToTab('calendar')">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14V20zm0-12H5V6h14v2z"/></svg>
+        <span>Schedule</span>
+    </div>
+    <div class="tab-item" id="nav-strength" onclick="navigateToTab('strength')">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M20.57 14.86L22 13.43l-2.83-2.83-1.41 1.41 1.41 1.42-3.53 3.53-3.54-3.54 1.42-1.41-1.42-1.42L9.29 13l1.41 1.42-2.12 2.12-1.42-1.42L5.76 16.5l2.83 2.83 1.41-1.41-1.41-1.42 2.12-2.12 3.54 3.54-1.42 1.41 1.42 1.42 3.53-3.54 1.42 1.42 1.41-1.41-1.42-1.42zM4 9c0 1.1.9 2 2 2s2-.9 2-2-.9-2-2-2-2 .9-2 2z"/></svg>
+        <span>Strength</span>
+    </div>
+    <div class="tab-item" id="nav-prs" onclick="navigateToTab('prs')">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.99 5.99 0 0011 15.9V19H7v2h10v-2h-4v-3.1a5.99 5.99 0 004.61-2.96C20.08 11.63 22 9.55 22 7V6c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+        <span>Milestones</span>
+    </div>
+    <div class="tab-item" id="nav-sync" onclick="navigateToTab('sync')">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+        <span>Ledger Vault</span>
+    </div>
+</div>
+
+<div class="modal-overlay" id="sessionModal">
+    <div class="modal-sheet">
+        <h3 id="modalTitle" style="font-weight:800; font-size:1.2rem; color:var(--primary); margin-bottom:15px;">Modify Session Entry</h3>
+        <form id="sessionForm" onsubmit="commitSessionForm(event)">
+            <input type="hidden" id="f-isEdit"><input type="hidden" id="f-origMonth"><input type="hidden" id="f-origWeek"><input type="hidden" id="f-origDay">
+            
+            <div class="form-grid-2">
+                <div class="form-group"><label>Month Track</label><select id="f-month" class="form-input"></select></div>
+                <div class="form-group"><label>Week Row</label><select id="f-week" class="form-input"></select></div>
+            </div>
+            <div class="form-grid-2">
+                <div class="form-group"><label>Target Day</label><select id="f-day" class="form-input">
+                    <option value="mon">Monday</option><option value="tue">Tuesday</option><option value="wed">Wednesday</option>
+                    <option value="thu">Thursday</option><option value="fri">Friday</option><option value="sat">Saturday</option><option value="sun">Sunday</option>
+                </select></div>
+                <div class="form-group"><label>Session Type</label><select id="f-type" class="form-input">
+                    <option value="run">Running Workout</option><option value="push">Push Gym Focus</option><option value="pull">Pull Gym Focus</option>
+                    <option value="leg">Leg Gym Focus</option><option value="rest">Rest/Recovery</option><option value="race">Official Race Match</option>
+                </select></div>
+            </div>
+            <div class="form-group"><label>Prescribed Protocol Line</label><input type="text" id="f-text" class="form-input" required></div>
+            
+            <div style="background:#f1f5f9; padding:12px; border-radius:10px; margin-bottom:15px; border:1px solid var(--border);">
+                <h4 style="font-size:0.75rem; font-weight:800; color:var(--primary); text-transform:uppercase; margin-bottom:8px;">📊 Performance Tracking Records</h4>
+                <div class="form-grid-2">
+                    <div class="form-group"><label>Actual Mileage/Pace</label><input type="text" id="f-pace" class="form-input" placeholder="e.g. 7 miles @ 11:32/mi"></div>
+                    <div class="form-group"><label>Average Heart Rate</label><input type="text" id="f-hr" class="form-input" placeholder="e.g. 156bpm"></div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group"><label>RPE (%)</label><input type="text" id="f-rpe" class="form-input" placeholder="e.g. 30%"></div>
+                    <div class="form-group"><label>Stride Length</label><input type="text" id="f-stride" class="form-input" placeholder="e.g. 0.88 m"></div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group"><label>Elevation Gain</label><input type="text" id="f-elev" class="form-input" placeholder="e.g. 458 ft"></div>
+                    <div class="form-group"><label>Pain Score (0-10)</label><input type="text" id="f-pain" class="form-input" placeholder="e.g. 0"></div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group"><label>Weather Status</label><input type="text" id="f-weather" class="form-input" placeholder="e.g. 70° F sunny"></div>
+                    <div class="form-group"><label>Humidity (%)</label><input type="text" id="f-humidity" class="form-input" placeholder="e.g. 70%"></div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;"><label>Session Annotations / Log Notes</label><input type="text" id="f-comments" class="form-input" placeholder="Felt strong throughout..."></div>
+            </div>
+
+            <button type="submit" class="submit-btn">Commit Changes</button>
+            <button type="button" id="f-delete-btn" class="submit-btn" style="background:#ef4444; display:none;" onclick="executeDeleteSession()">Delete Entry</button>
+            <button type="button" class="submit-btn" style="background:#64748b; margin-top:6px;" onclick="closeSheetModal('sessionModal')">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<div class="modal-overlay" id="gymModal">
+    <div class="modal-sheet">
+        <h3 style="font-weight:800; font-size:1.2rem; color:var(--secondary); margin-bottom:12px;">Edit Weight Progression Grid</h3>
+        <form onsubmit="commitGymForm(event)">
+            <input type="hidden" id="g-type"><input type="hidden" id="g-idx">
+            <div class="form-group"><label>Exercise Name</label><input type="text" id="g-name" class="form-input" readonly style="background:#e2e8f0;"></div>
+            <div class="form-grid-2">
+                <div class="form-group"><label>Target Sets</label><input type="text" id="g-sets" class="form-input"></div>
+                <div class="form-group"><label>Target Reps</label><input type="text" id="g-reps" class="form-input"></div>
+            </div>
+            
+            <div style="background:#f8fafc; padding:12px; border-radius:10px; border:1px solid var(--border); margin-bottom:14px;">
+                <h4 style="font-size:0.75rem; font-weight:800; color:var(--secondary); text-transform:uppercase; margin-bottom:8px;">🏋️ Multi-Week Working Weight History</h4>
+                <div class="form-grid-2">
+                    <div class="form-group"><label>Week 1 Weight</label><input type="text" id="g-w1" class="form-input"></div>
+                    <div class="form-group"><label>Week 2 Weight</label><input type="text" id="g-w2" class="form-input"></div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group"><label>Week 3 Weight</label><input type="text" id="g-w3" class="form-input"></div>
+                    <div class="form-group"><label>Week 4 Weight</label><input type="text" id="g-w4" class="form-input"></div>
+                </div>
+            </div>
+            <div class="form-group"><label>Execution Form Cue Reminders</label><input type="text" id="g-cue" class="form-input"></div>
+            
+            <button type="submit" class="submit-btn" style="background:var(--secondary);">Save Gym Record</button>
+            <button type="button" class="submit-btn" style="background:#64748b; margin-top:6px;" onclick="closeSheetModal('gymModal')">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // BASELINE TRAINING MATRICES DIRECTLY HARDFILL FROM SPEC SHEETS
+    const coreDefaultCalendar = {
+        "MAY": {
+            weeklyMiles: "May Training Logs & Diagnostic Buffers",
+            schedule: [
+                { id: "W1", label: "1st-2nd", mon:"", tue:"", wed:"", thu:"", fri:{type:"run", text:"Barrett Shoals 5M Run"}, sat:"", sun:"" },
+                { id: "W2", label: "4th-10th", mon:"", tue:"", wed:{type:"run", text:"Al cut 1 test (Goal near 700m)"}, thu:"", fri:"", sat:"", sun:"" },
+                { 
+                    id: "W3", label: "11th-17th", mon:"", tue:"", 
+                    wed:{type:"run", text:"warmup + 4x400m @ 8:40/mi + 60sec rests + Sm.cooldown (~25 mins)", pace:"Total miles 2.10", hr:"157bpm", rpe:"60%", stride:"0.90 m", elev:"72 ft", weather:"54 degrees", comments:"Interval splits: 1:47, 2:37, 5:52, 4:44."},
+                    thu:{type:"run", text:"conversational pace (slower than easy pace)", pace:"Average 12:25/mi", hr:"143bpm", rpe:"30%", stride:"0.83 m", elev:"154 ft", weather:"67 degrees", comments:"Was in zone 2 most of the run and only in zone 3 because of the hills. Never hit zone 4."},
+                    fri:"", sat:"",
+                    sun:{type:"run", text:"5 Stride Long Run at easy pace", pace:"Average 12:07/mi", hr:"164bpm", rpe:"60%", stride:"0.84 m", elev:"217 ft", weather:"84 degrees", pain:"7", comments:"Hip Flexors were hurting quite a bit during this run. It was also pretty humid."}
+                },
+                {
+                    id: "W4", label: "18th-24th", 
+                    mon:{type:"run", text:"Cycling Loop Add-on", pace:"5.10 miles in 21:35", hr:"144 bpm", rpe:"40%", stride:"N/A", elev:"246 ft", weather:"90 degrees", comments:"Needed to do something so added a cycle. Did it at 4:20pm to combat some heat but it was still 90 degrees."},
+                    tue:{type:"run", text:"10x 70% effort uphill + Cooldown run back", pace:"2.82 miles @ 09:25 avg pace", hr:"145 bpm (spiked 170+)", rpe:"60%", stride:"0.85 m", elev:"54 ft", comments:"Only pain was normal workout pain in quads and glutes for a hill run. No pain in the hip flexors. Felt strong each rep."},
+                    wed:{type:"run", text:"at conversational pace", pace:"Average 11:57/mi", hr:"146 bpm", rpe:"30%", stride:"0.85 m", weather:"86 degrees", pain:"3", comments:"I could feel the upper muscles of my glutes hurting but that was mainly from cycling and hill running back to back days."},
+                    thu:"", 
+                    fri:{type:"run", text:"6.2 Mile Long Run", pace:"6.25 miles average 11:15/mi", hr:"156 bpm", rpe:"60%", stride:"0.89 m", elev:"440 ft", weather:"72 degrees", pain:"5", comments:"The upper muscles hurt a little bit but not nearly as bad as I thought they would! Still felt the soreness."},
+                    sat:{type:"leg", text:"Leg Day Workout Split"},
+                    sun:{type:"run", text:"Volume Baseline Goal", pace:"13-14 miles"}
+                },
+                {
+                    id: "W5", label: "25th-31st",
+                    mon:{type:"run", text:"1. Semi threshold (Zone 3/4) Semitown Run", pace:"2 mile threshold with warm up totaling 4.31 miles", hr:"173 bpm", rpe:"90%", stride:"1.00 m", elev:"233 ft", weather:"70 degrees F", humidity:"84%", pain:"5", comments:"Muscles felt good and recovered. The really high humidity killed the 3 mile goal and stopped me at 2 miles. Walked back."},
+                    tue:{type:"push", text:"Push Day Workout Split"},
+                    wed:{type:"run", text:"at conversational pace", pace:"4 miles @ 11:28/mi", hr:"147 bpm", rpe:"30%", stride:"0.80 m", elev:"197 ft", weather:"72 degrees", humidity:"90%", pain:"3", comments:"Legs felt heavy throughout the run. Heart rate was controlled throughout even in the 90% humidity."},
+                    thu:{type:"pull", text:"Pull Day Workout Split"},
+                    fri:{type:"run", text:"6.2 Mile Long Run at easy pace", pace:"8.5 miles total with 6.2 miles @ 11:30/mi", hr:"151 bpm", rpe:"40%", stride:"0.85 m", elev:"300 ft", weather:"72 degrees", humidity:"75%", comments:"Hip flexors don't hurt anymore! A little bit of heaviness in legs towards the end. Focused running in zone 3."},
+                    sat:{type:"leg", text:"Leg Day Workout Split"},
+                    sun:{type:"run", text:"Weekly target volume check", pace:"13 miles"}
+                }
+            ]
+        },
+        "JUNE": {
+            weeklyMiles: "Target Matrix: Mon-Threshold | Wed-Intervals | Fri-Long Run",
+            schedule: [
+                {
+                    id: "W1", label: "1st-7th",
+                    mon:{type:"run", text:"1mi easy warmup + 2mi threshold + walking cooldown", pace:"2 miles @ 9:05/mi pace", hr:"175bpm", rpe:"5", stride:"0.96 m", elev:"79 ft", weather:"64 degrees F / cloudy", humidity:"90%", pain:"0", comments:"A great run. Started to feel like the HR was going to zone 5 towards the end but made it consistently through."},
+                    tue:{type:"push", text:"Push Day Focus"},
+                    wed:{type:"run", text:"1.5mi warmup + 8x400m @ 8:30/mi (60sec rests) + 1.5mi cooldown", pace:"Splits: 8:25, 8:11, 8:17, 8:22, 8:12, 8:19, 8:09, 8:18", hr:"166bpm avg", rpe:"High Intensity", stride:"Dynamic Check", elev:"72 ft", weather:"59 degrees F / sunny", humidity:"79%", comments:"I tried to slow down to 8:30 pace but my body said I was faster. Experimented with my kick and stride length."},
+                    thu:{type:"pull", text:"Pull Day Focus"},
+                    fri:{type:"run", text:"7 Mile Long Run at easy pace", pace:"7 miles @ 11:32/mi pace", hr:"156bpm", rpe:"3", stride:"0.88 m", elev:"458 ft", weather:"70 degrees F / sunny", humidity:"70%", pain:"0", comments:"Felt real strong today. Only had to stop a couple times because of street lights. Weather was amazing."},
+                    sat:{type:"leg", text:"Leg Day Focus"},
+                    sun:{type:"rest", text:"Rest"}
+                },
+                { id: "W2", label: "8th-14th", mon:{type:"run", text:"1mi easy warmup + 2.25mi threshold + walking cooldown"}, tue:{type:"push", text:"Push Day"}, wed:{type:"run", text:"Warmup + 10x75% effort uphill (60s running, walk down)"}, thu:{type:"pull", text:"Pull Day"}, fri:{type:"run", text:"7.5 Mile Long Run at easy pace"}, sat:{type:"leg", text:"Leg Day"}, sun:{type:"rest", text:"Rest"} },
+                { id: "W3", label: "15th-21st", mon:{type:"run", text:"1mi easy warmup + 2.5mi threshold + walking cooldown"}, tue:{type:"push", text:"Push Day"}, wed:{type:"run", text:"1.5mi warmup + 4x800m @ 6:00/mi (60sec rests) + 1.5mi cooldown"}, thu:{type:"pull", text:"Pull Day"}, fri:{type:"run", text:"8 Mile Long Run at easy pace"}, sat:{type:"leg", text:"Leg Day"}, sun:{type:"rest", text:"Rest"} },
+                { id: "W4", label: "22nd-28th", mon:{type:"run", text:"1mi easy warmup + 3mi threshold + walking cooldown"}, tue:{type:"push", text:"Push Day"}, wed:{type:"run", text:"Warmup + 10x75% effort uphill (60s running, walk down)"}, thu:{type:"pull", text:"Pull Day"}, fri:{type:"run", text:"8.5 Mile Long Run at easy pace"}, sat:{type:"leg", text:"Leg Day"}, sun:{type:"rest", text:"Rest"} },
+                { id: "W5", label: "29th-30th", mon:{type:"run", text:"1mi easy warmup + 3.1mi threshold + walking cooldown"}, tue:{type:"push", text:"Push Day"}, wed:{type:"pull", text:"July 1st Pull Slot"}, thu:{type:"rest", text:"July 2nd Rest Slot"}, fri:{type:"run", text:"July 3rd 8.5 Mile Long Run"}, sat:{type:"leg", text:"July 4th Leg Slot"}, sun:{type:"rest", text:"July 5th Rest Slot"} }
+            ]
+        },
+        "JULY": {
+            weeklyMiles: "Goal: Sub-2hr Half 9:01 | Mon-Threshold, Wed-Intervals, Fri-Long Run",
+            schedule: [
+                { id: "W1", label: "1st-5th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"5 Mile Long Run @ 9:30 pace"} },
+                { id: "W2", label: "6th-12th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:{type:"race", text:"Eagle 5k Race Day Goal: 7:15/mi"}, sun:{type:"run", text:"3 Mile post race shake out run"} },
+                { id: "W3", label: "13th-19th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"6 Mile Long Run at easy pace"} },
+                { id: "W4", label: "20th-26th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"7 Mile Long Run at easy pace"} },
+                { id: "W5", label: "27th-31st", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"8 Mile Long Run at easy pace"} }
+            ]
+        },
+        "AUGUST": {
+            weeklyMiles: "Mid-Plan Aerobic Testing Protocols",
+            schedule: [
+                { id: "W1", label: "1st-2nd", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"7 Mile Long Run 9:45 pace"} },
+                { id: "W2", label: "3rd-9th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:{type:"race", text:"5k Race Verification Track (Goal: 7:49/mi)"}, sun:{type:"run", text:"3 Mile post race shake out run"} },
+                { id: "W3", label: "10th-16th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"5 Mile Long Run 9:30 pace"} },
+                { id: "W4", label: "17th-23rd", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"7 Mile Long Run 09:45 pace"} },
+                { id: "W5", label: "24th-30th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"8 Mile Long Run 09:30 pace"} },
+                { id: "W6", label: "31st", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"9 Mile Long Run 09:10 pace"} }
+            ]
+        },
+        "SEPTEMBER": {
+            weeklyMiles: "Peak Volume Endurance Aggregations",
+            schedule: [
+                { id: "W1", label: "1st-6th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"10 Mile Long Run 9:30 pace"} },
+                { id: "W2", label: "7th-13th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"10 Mile Long Run 10:00 pace"} },
+                { id: "W3", label: "14th-20th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"11 Mile Long Run 9:00 pace"} },
+                { id: "W4", label: "21st-27th", mon:"", tue:"", wed:"", thu:", fri:"", sat:"", sun:{type:"run", text:"11 Mile Long Run 9:10 pace"} },
+                { id: "W5", label: "28th-30th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"12 Mile Long Run 09:00 pace"} }
+            ]
+        },
+        "OCTOBER": {
+            weeklyMiles: "Taper Down Frame & Half Marathon Race Peak",
+            schedule: [
+                { id: "W1", label: "1st-4th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"10 Mile Long Run 10:00 pace (taper)"} },
+                { id: "W2", label: "5th-11th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"race", text:"Half Marathon Race Day!!! Sub-2hr Execution Target (09:01/mi)"} }
+            ]
+        }
+    };
+
+    const coreDefaultStrength = {
+        push: [
+            { name: "Bench Press", target: "Chest, Front Shoulders, Triceps", sets: "3", reps: "10-12", w1: "65 (Set3: 70)", w2: "", w3: "", w4: "", cue: "Keep back flat, push straight out, control return." },
+            { name: "Incline Bench Press", target: "Upper Chest, Shoulders", sets: "3", reps: "10-12", w1: "55 lbs", w2: "", w3: "", w4: "", cue: "Slight incline targets upper chest specifically." },
+            { name: "Shoulder Dumbbell Press", target: "Shoulders, Triceps", sets: "3", reps: "10-12", w1: "10 lbs", w2: "", w3: "", w4: "", cue: "Press straight up, don't rock elbows at top." },
+            { name: "Lateral Dumbbell Raise", target: "Side Shoulders", sets: "3", reps: "10-12", w1: "10 lbs", w2: "", w3: "", w4: "", cue: "Lift to shoulder height only, slow and controlled." },
+            { name: "Chest Fly Machine", target: "Chest, Front Shoulders", sets: "3", reps: "10-12", w1: "70 (Set3: 10r)", w2: "", w3: "", w4: "", cue: "Wide arc motion, feel the stretch at the bottom." },
+            { name: "Tricep Pushdown Cable", target: "Triceps", sets: "3", reps: "10-12", w1: "20 lbs", w2: "", w3: "", w4: "", cue: "Elbows tucked, push down and fully extend arms." }
+        ],
+        pull: [
+            { name: "Lat Pulldown Machine", target: "Upper back, Lats", sets: "3", reps: "10-12", w1: "70 lbs", w2: "", w3: "", w4: "", cue: "Grip wide, pull to chest, control back up slowly." },
+            { name: "Seated Row Machine", target: "Mid back, Rhomboids", sets: "3", reps: "10-12", w1: "85 lbs", w2: "", w3: "", w4: "", cue: "Pull to stomach, squeeze shoulder blades at end." },
+            { name: "Assisted Pull Up Machine", target: "Full back, Biceps", sets: "3", reps: "10-12", w1: "85 lbs", w2: "", w3: "", w4: "", cue: "Select counterweight, control the movement." },
+            { name: "Bicep Curl Dumbbells", target: "Biceps", sets: "3", reps: "10-12", w1: "20/15 lbs", w2: "", w3: "", w4: "", cue: "Place elbows on pad, curl up and lower slowly." },
+            { name: "Face Pull Cable Machine", target: "Rear shoulders, Upper back", sets: "3", reps: "10-12", w1: "50 lbs", w2: "", w3: "", w4: "", cue: "Cable at face height, pull with elbows high." },
+            { name: "Hammer Curl Dumbbells", target: "Biceps, Forearms", sets: "3", reps: "10-12", w1: "15 lbs", w2: "", w3: "", w4: "", cue: "Palms facing each other, alternate arms." }
+        ],
+        leg: [
+            { name: "Leg Press Machine", target: "Quads, Hamstrings, Glutes", sets: "3", reps: "12", w1: "208 lbs", w2: "", w3: "", w4: "", cue: "Linear machine: 45lb plates loaded each side." },
+            { name: "Leg Extension Machine", target: "Quads", sets: "3", reps: "12", w1: "70 lbs", w2: "", w3: "", w4: "", cue: "Extend fully, pause at top, lower slowly." },
+            { name: "Leg Curl Machine", target: "Hamstrings", sets: "3", reps: "12", w1: "70 lbs", w2: "", w3: "", w4: "", cue: "Curl toward glutes, control the return." },
+            { name: "Cable Kickbacks", target: "Glutes, Hip Flexors", sets: "3", reps: "12", w1: "15 lbs", w2: "", w3: "", w4: "", cue: "KEY FOR RUNNING: squeeze glute at top extension." },
+            { name: "Calf Extension Machine", target: "Calves", sets: "3", reps: "12", w1: "85 lbs", w2: "", w3: "", w4: "", cue: "Full range of motion, pause at top and bottom." },
+            { name: "Hip Abductor Machine", target: "Outer Glutes, Hip Stabilizers", sets: "3", reps: "12", w1: "115 lbs", w2: "", w3: "", w4: "", cue: "Running stability and injury prevention." },
+            { name: "Rowing Machine Cardio", target: "Cardio Flush", sets: "1", reps: "10m", w1: "24 spm / r1", w2: "", w3: "", w4: "", cue: "Aerobic routine cooldown flush." }
+        ]
+    };
+
+    const coreDefaultPrs = [
+        { item: "Bench Press Working Set Max", record: "70 lbs", lineage: "Week 1 Lift Baseline" },
+        { item: "Linear Leg Press Volume Peak", record: "208 lbs", lineage: "45lb plate pairings loaded" },
+        { item: "Longest Logged Distance Standard", record: "7.0 Miles", lineage: "Completed Friday June 5th" },
+        { item: "Fastest Threshold Velocity Mark", record: "09:05 /mi", lineage: "2-Mile Tempo Execution Completed" }
+    ];
+
+    let dbInstance = { calendar: {}, strength: {}, prs: [] };
+    let currentActiveMonth = "JUNE";
+    let selectedGymDay = "push";
+    const dayKeys = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+    const dayNameMap = { mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday', thu: 'Thursday', fri: 'Friday', sat: 'Saturday', sun: 'Sunday' };
+
+    function initializeApplication() {
+        if (!window.navigator.standalone && /iPhone|iPad|iPod/.test(navigator.userAgent)) {
+            document.getElementById('install-prompt-strip').style.display = "block";
+        }
+        setupAppleTouchIcon();
+
+        const cachedDb = localStorage.getItem('macpherson_premium_ledger');
+        if (cachedDb) {
+            try {
+                dbInstance = JSON.parse(cachedDb);
+            } catch(e) {
+                loadFactoryDefaultLedger();
+            }
+        } else {
+            loadFactoryDefaultLedger();
+        }
+        renderMonthSelectionTabs();
+        buildFormDropdowns();
+        refreshPrimaryUI();
+    }
+
+    function setupAppleTouchIcon() {
+        const canvas = document.createElement('canvas');
+        canvas.width = 180; canvas.height = 180;
+        const ctx = canvas.getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, 180, 180);
+        gradient.addColorStop(0, '#1e3a8a'); gradient.addColorStop(1, '#3b82f6');
+        ctx.fillStyle = gradient; ctx.fillRect(0, 0, 180, 180);
+        ctx.fillStyle = '#ffffff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.font = 'bold 68px -apple-system, sans-serif'; ctx.fillText('MP', 90, 80);
+        ctx.font = 'bold 24px -apple-system, sans-serif'; ctx.fillText('2026', 90, 135);
+        
+        let existingLink = document.querySelector("link[rel='apple-touch-icon']");
+        if (existingLink) document.head.removeChild(existingLink);
+        let link = document.createElement('link');
+        link.rel = 'apple-touch-icon'; link.href = canvas.toDataURL();
+        document.head.appendChild(link);
+    }
+
+    function loadFactoryDefaultLedger() {
+        dbInstance.calendar = JSON.parse(JSON.stringify(coreDefaultCalendar));
+        dbInstance.strength = JSON.parse(JSON.stringify(coreDefaultStrength));
+        dbInstance.prs = JSON.parse(JSON.stringify(coreDefaultPrs));
+        saveStateToStorage();
+    }
+
+    function saveStateToStorage() {
+        localStorage.setItem('macpherson_premium_ledger', JSON.stringify(dbInstance));
+        document.getElementById('rawExportBox').value = JSON.stringify(dbInstance, null, 2);
+    }
+
+    function factoryResetDatabase() {
+        if (confirm("Are you sure you want to restore the layout to the official PDF factory baseline configuration? Current customizations will be overwritten.")) {
+            loadFactoryDefaultLedger();
+            refreshPrimaryUI();
+        }
+    }
+
+    function navigateToTab(tabId) {
+        document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active-view'));
+        document.querySelectorAll('.tab-item').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+        
+        document.getElementById(`view-${tabId}`).classList.add('active-view');
+        
+        // Sync mobile tab UI element state
+        const targetMobileNav = document.getElementById(`nav-${tabId}`);
+        if(targetMobileNav) targetMobileNav.classList.add('active');
+
+        // Sync desktop menu UI element state
+        const targetDesktopNav = document.getElementById(`desk-nav-${tabId}`);
+        if(targetDesktopNav) targetDesktopNav.classList.add('active');
+    }
+
+    function renderMonthSelectionTabs() {
+        const box = document.getElementById('monthTabs');
+        box.innerHTML = '';
+        Object.keys(dbInstance.calendar).forEach(monthKey => {
+            const pill = document.createElement('div');
+            pill.className = `month-pill ${monthKey === currentActiveMonth ? 'active' : ''}`;
+            pill.innerText = monthKey;
+            pill.onclick = () => {
+                currentActiveMonth = monthKey;
+                document.querySelectorAll('#monthTabs .month-pill').forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                refreshPrimaryUI();
+            };
+            box.appendChild(pill);
+        });
+    }
+
+    function buildFormDropdowns() {
+        const mSel = document.getElementById('f-month');
+        mSel.innerHTML = '';
+        Object.keys(dbInstance.calendar).forEach(m => mSel.innerHTML += `<option value="${m}">${m}</option>`);
+
+        const wSel = document.getElementById('f-week');
+        wSel.innerHTML = '';
+        for(let i=0; i<6; i++) { wSel.innerHTML += `<option value="${i}">Row Slot ${i+1}</option>`; }
+    }
+
+    function toggleGymDay(dayId) {
+        selectedGymDay = dayId;
+        document.querySelectorAll('#gymDayTabs .month-pill').forEach(p => p.classList.remove('active'));
+        document.getElementById(`pill-${dayId}`).classList.add('active');
+        refreshPrimaryUI();
+    }
+
+    function refreshPrimaryUI() {
+        const monthData = dbInstance.calendar[currentActiveMonth];
+        document.getElementById('strat-month-lbl').innerText = `${currentActiveMonth} 2026 Focus Guidelines`;
+        document.getElementById('strat-desc-lbl').innerText = monthData.weeklyMiles;
+
+        // Render Calendar Schedule Tab Details
+        const stackContainer = document.getElementById('calendarStackContainer');
+        stackContainer.innerHTML = '';
+
+        monthData.schedule.forEach((weekRow, wIdx) => {
+            const card = document.createElement('div');
+            card.className = 'week-card';
+            card.innerHTML = `<div class="week-card-header"><span>Slot: ${weekRow.label}</span><span style="font-size:0.75rem; color:var(--text-muted);">Row Entry ${wIdx+1}</span></div>`;
+
+            dayKeys.forEach(day => {
+                const dayData = weekRow[day];
+                const strip = document.createElement('div');
+                
+                if (dayData && typeof dayData === 'object' && dayData.text) {
+                    strip.className = `day-strip item-clickable day-strip-item active-${dayData.type}`;
+                    
+                    let dataLayout = '';
+                    if (dayData.pace || dayData.hr || dayData.rpe || dayData.stride || dayData.elev || dayData.pain || dayData.weather || dayData.humidity) {
+                        dataLayout = `
+                            <div class="metrics-grid-view">
+                                <div class="metric-cell"><span class="m-lbl">Actual/Vol</span><span class="m-val">${dayData.pace || '---'}</span></div>
+                                <div class="metric-cell"><span class="m-lbl">Avg HR</span><span class="m-val">${dayData.hr || '---'}</span></div>
+                                <div class="metric-cell"><span class="m-lbl">RPE/Stride</span><span class="m-val">${dayData.rpe || '---'} / ${dayData.stride || '---'}</span></div>
+                                <div class="metric-cell"><span class="m-lbl">Gain</span><span class="m-val">${dayData.elev || '---'}</span></div>
+                                <div class="metric-cell"><span class="m-lbl">Pain Flag</span><span class="m-val" style="color:${parseInt(dayData.pain)>4?'#ef4444':'inherit'}">${dayData.pain || '0'}/10</span></div>
+                                <div class="metric-cell"><span class="m-lbl">Weather/Hum</span><span class="m-val">${dayData.weather || '---'} (${dayData.humidity || '—'})</span></div>
+                            </div>
+                        `;
+                    }
+                    
+                    let commentLayout = dayData.comments ? `<div class="comment-block"><b>Notes:</b> ${dayData.comments}</div>` : '';
+
+                    strip.innerHTML = `
+                        <div class="day-meta-line">
+                            <span class="day-name">${dayNameMap[day]}</span>
+                            <span class="day-badge" style="background:var(--bg-${dayData.type})">${dayData.type}</span>
+                        </div>
+                        <div class="day-protocol">${dayData.text}</div>
+                        ${dataLayout}
+                        ${commentLayout}
+                    `;
+                    strip.onclick = () => launchEditSessionSheet(currentActiveMonth, wIdx, day, dayData);
+                } else {
+                    strip.className = 'day-strip-item';
+                    strip.innerHTML = `
+                        <div class="day-meta-line" style="color:var(--text-muted); font-weight:500;">
+                            <span>${dayNameMap[day]}</span>
+                            <span style="font-size:0.75rem; font-weight:700; color:var(--primary); cursor:pointer;" onclick="launchDirectAddSlot('${currentActiveMonth}', ${wIdx}, '${day}')">+ Add Entry</span>
+                        </div>
+                    `;
+                }
+                card.appendChild(strip);
+            });
+            stackContainer.appendChild(card);
+        });
+
+        // Render Multi-Week Spreadsheet Style Strength Cards
+        const gymContainer = document.getElementById('gymExercisesContainer');
+        gymContainer.innerHTML = '';
+        dbInstance.strength[selectedGymDay].forEach((ex, idx) => {
+            const exCard = document.createElement('div');
+            exCard.className = 'gym-ex-card';
+            exCard.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <div style="padding-right: 8px;">
+                        <div class="gym-ex-title">${ex.name}</div>
+                        <div class="gym-ex-sub">${ex.target} | Specs: ${ex.sets}x${ex.reps}</div>
+                    </div>
+                    <button onclick="launchGymEditSheet('${selectedGymDay}', ${idx})" style="background:#e2e8f0; border:none; padding:6px 12px; font-weight:700; font-size:0.75rem; border-radius:6px; color:var(--dark); cursor:pointer;">Edit Weights</button>
+                </div>
+                <div class="gym-weeks-grid">
+                    <div class="gym-week-box"><div class="w-num">Wk 1</div><div class="w-val">${ex.w1 || '—'}</div></div>
+                    <div class="gym-week-box"><div class="w-num">Wk 2</div><div class="w-val">${ex.w2 || '—'}</div></div>
+                    <div class="gym-week-box"><div class="w-num">Wk 3</div><div class="w-val">${ex.w3 || '—'}</div></div>
+                    <div class="gym-week-box"><div class="w-num">Wk 4</div><div class="w-val">${ex.w4 || '—'}</div></div>
+                </div>
+                ${ex.cue ? `<div class="comment-block" style="margin-top:8px; border-style:dashed;"><b>Form Cue:</b> ${ex.cue}</div>` : ''}
+            `;
+            gymContainer.appendChild(exCard);
+        });
+
+        // Render Milestones Book
+        const prContainer = document.getElementById('prListContainer');
+        prContainer.innerHTML = '';
+        dbInstance.prs.forEach((pr, pIdx) => {
+            const itemRow = document.createElement('div');
+            itemRow.className = 'week-card';
+            itemRow.style.display = 'flex';
+            itemRow.style.justifyContent = 'space-between';
+            itemRow.style.alignItems = 'center';
+            itemRow.innerHTML = `
+                <div style="max-width:70%;">
+                    <div style="font-weight:800; font-size:0.95rem; color:var(--dark);">${pr.item}</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted); font-style:italic;">${pr.lineage}</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-size:1.1rem; font-weight:900; color:var(--bg-race);">${pr.record}</div>
+                    <button onclick="triggerPrUpdate(${pIdx})" style="border:none; background:none; text-decoration:underline; font-size:0.75rem; color:var(--primary); font-weight:700; cursor:pointer;">Update</button>
+                </div>
+            `;
+            prContainer.appendChild(itemRow);
+        });
+
+        document.getElementById('rawExportBox').value = JSON.stringify(dbInstance, null, 2);
+    }
+
+    function triggerAddModal() {
+        document.getElementById('sessionForm').reset();
+        document.getElementById('modalTitle').innerText = "Log Workout Entry";
+        document.getElementById('f-isEdit').value = "false";
+        document.getElementById('f-month').value = currentActiveMonth;
+        document.getElementById('f-delete-btn').style.display = "none";
+        document.getElementById('sessionModal').style.display = "flex";
+    }
+
+    function launchDirectAddSlot(month, weekIdx, day) {
+        triggerAddModal();
+        document.getElementById('f-month').value = month;
+        document.getElementById('f-week').value = weekIdx;
+        document.getElementById('f-day').value = day;
+    }
+
+    function launchEditSessionSheet(month, weekIdx, day, dataObj) {
+        document.getElementById('modalTitle').innerText = "Modify Active Entry Metrics";
+        document.getElementById('f-isEdit').value = "true";
+        document.getElementById('f-origMonth').value = month;
+        document.getElementById('f-origWeek').value = weekIdx;
+        document.getElementById('f-origDay').value = day;
+
+        document.getElementById('f-month').value = month;
+        document.getElementById('f-week').value = weekIdx;
+        document.getElementById('f-day').value = day;
+        document.getElementById('f-type').value = dataObj.type;
+        document.getElementById('f-text').value = dataObj.text;
+        
+        document.getElementById('f-pace').value = dataObj.pace || '';
+        document.getElementById('f-hr').value = dataObj.hr || '';
+        document.getElementById('f-rpe').value = dataObj.rpe || '';
+        document.getElementById('f-stride').value = dataObj.stride || '';
+        document.getElementById('f-elev').value = dataObj.elev || '';
+        document.getElementById('f-pain').value = dataObj.pain || '';
+        document.getElementById('f-weather').value = dataObj.weather || '';
+        document.getElementById('f-humidity').value = dataObj.humidity || '';
+        document.getElementById('f-comments').value = dataObj.comments || '';
+
+        document.getElementById('f-delete-btn').style.display = "block";
+        document.getElementById('sessionModal').style.display = "flex";
+    }
+
+    function launchGymEditSheet(dayType, index) {
+        const targetExercise = dbInstance.strength[dayType][index];
+        document.getElementById('g-type').value = dayType;
+        document.getElementById('g-idx').value = index;
+        document.getElementById('g-name').value = targetExercise.name;
+        document.getElementById('g-sets').value = targetExercise.sets;
+        document.getElementById('g-reps').value = targetExercise.reps;
+        document.getElementById('g-w1').value = targetExercise.w1 || '';
+        document.getElementById('g-w2').value = targetExercise.w2 || '';
+        document.getElementById('g-w3').value = targetExercise.w3 || '';
+        document.getElementById('g-w4').value = targetExercise.w4 || '';
+        document.getElementById('g-cue').value = targetExercise.cue || '';
+        document.getElementById('gymModal').style.display = "flex";
+    }
+
+    function closeSheetModal(id) { document.getElementById(id).style.display = "none"; }
+
+    function commitSessionForm(e) {
+        e.preventDefault();
+        const isEdit = document.getElementById('f-isEdit').value === "true";
+        const month = document.getElementById('f-month').value;
+        const week = parseInt(document.getElementById('f-week').value, 10);
+        const day = document.getElementById('f-day').value;
+
+        if (isEdit) {
+            const oM = document.getElementById('f-origMonth').value;
+            const oW = parseInt(document.getElementById('f-origWeek').value, 10);
+            const oD = document.getElementById('f-origDay').value;
+            dbInstance.calendar[oM].schedule[oW][oD] = "";
+        }
+
+        // Integrity check to ensure week array structure matching
+        while (dbInstance.calendar[month].schedule.length <= week) {
+            dbInstance.calendar[month].schedule.push({ id: "WX", label: "Custom Range", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:"" });
+        }
+
+        dbInstance.calendar[month].schedule[week][day] = {
+            type: document.getElementById('f-type').value,
+            text: document.getElementById('f-text').value,
+            pace: document.getElementById('f-pace').value,
+            hr: document.getElementById('f-hr').value,
+            rpe: document.getElementById('f-rpe').value,
+            stride: document.getElementById('f-stride').value,
+            elev: document.getElementById('f-elev').value,
+            pain: document.getElementById('f-pain').value,
+            weather: document.getElementById('f-weather').value,
+            humidity: document.getElementById('f-humidity').value,
+            comments: document.getElementById('f-comments').value
+        };
+
+        saveStateToStorage(); closeSheetModal('sessionModal'); currentActiveMonth = month; renderMonthSelectionTabs(); refreshPrimaryUI();
+    }
+
+    function executeDeleteSession() {
+        if(confirm("Confirm deletion of this workout record?")) {
+            const oM = document.getElementById('f-origMonth').value;
+            const oW = parseInt(document.getElementById('f-origWeek').value, 10);
+            const oD = document.getElementById('f-origDay').value;
+            dbInstance.calendar[oM].schedule[oW][oD] = "";
+            saveStateToStorage(); closeSheetModal('sessionModal'); refreshPrimaryUI();
+        }
+    }
+
+    function commitGymForm(e) {
+        e.preventDefault();
+        const type = document.getElementById('g-type').value;
+        const idx = parseInt(document.getElementById('g-idx').value, 10);
+        
+        dbInstance.strength[type][idx].sets = document.getElementById('g-sets').value;
+        dbInstance.strength[type][idx].reps = document.getElementById('g-reps').value;
+        dbInstance.strength[type][idx].w1 = document.getElementById('g-w1').value;
+        dbInstance.strength[type][idx].w2 = document.getElementById('g-w2').value;
+        dbInstance.strength[type][idx].w3 = document.getElementById('g-w3').value;
+        dbInstance.strength[type][idx].w4 = document.getElementById('g-w4').value;
+        dbInstance.strength[type][idx].cue = document.getElementById('g-cue').value;
+
+        saveStateToStorage(); closeSheetModal('gymModal'); refreshPrimaryUI();
+    }
+
+    function triggerPrUpdate(index) {
+        const newVal = prompt(`Update value record for ${dbInstance.prs[index].item}:`, dbInstance.prs[index].record);
+        if (newVal !== null) {
+            dbInstance.prs[index].record = newVal;
+            const newContext = prompt("Update context or lineage reference date:", dbInstance.prs[index].lineage);
+            if (newContext !== null) dbInstance.prs[index].lineage = newContext;
+            saveStateToStorage(); refreshPrimaryUI();
+        }
+    }
+
+    function executeClipboardCopy() {
+        const targetArea = document.getElementById('rawExportBox');
+        targetArea.select(); targetArea.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(targetArea.value);
+        alert("Ledger database string safely duplicated to clipboard! Paste inside Apple Notes.");
+    }
+
+    function executeLedgerImport() {
+        const inputString = document.getElementById('rawImportBox').value.trim();
+        try {
+            const parsedObj = JSON.parse(inputString);
+            if (parsedObj.calendar && parsedObj.strength && parsedObj.prs) {
+                dbInstance = parsedObj;
+                saveStateToStorage(); refreshPrimaryUI();
+                alert("Database state validation passed. UI updated seamlessly.");
+                document.getElementById('rawImportBox').value = '';
+            } else { alert("Malformed structure format. Verification rejected."); }
+        } catch(err) { alert("Parsing error. Ensure data layout is uncorrupted JSON."); }
+    }
+
+    window.onload = initializeApplication;
+</script>
+</body>
+</html>
