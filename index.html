@@ -19,7 +19,6 @@
             --border: #e2e8f0;
             --text-muted: #64748b;
             
-            /* Workout Category Identification Palette */
             --bg-run: #3b82f6;
             --bg-push: #f43f5e;
             --bg-pull: #a855f7;
@@ -39,7 +38,6 @@
         body {
             background-color: #f1f5f9;
             color: var(--dark);
-            /* Mobile safe area padding defaults */
             padding-top: calc(env(safe-area-inset-top) + 15px);
             padding-bottom: calc(env(safe-area-inset-bottom) + 90px);
             padding-left: 12px;
@@ -53,19 +51,16 @@
             margin: 0 auto;
         }
 
-        /* Responsive Adaptive Layout Wrapper */
         .app-layout {
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
 
-        /* Desktop Sidebar - Hidden on mobile devices */
         .desktop-sidebar {
             display: none;
         }
 
-        /* Premium Application Header Design */
         header {
             background: var(--primary-gradient);
             color: white;
@@ -114,7 +109,6 @@
             letter-spacing: 0.3px;
         }
 
-        /* Navigation Carousel / Pills Grid */
         .month-scroller {
             display: flex;
             gap: 8px;
@@ -148,7 +142,6 @@
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
         }
 
-        /* Strategy Target Indicator Card */
         .strategy-banner {
             background: white;
             border-radius: 12px;
@@ -171,7 +164,6 @@
             margin-top: 2px;
         }
 
-        /* Schedule Grid Base Layout */
         .calendar-grid-stack {
             display: grid;
             grid-template-columns: 1fr;
@@ -248,7 +240,6 @@
             margin-top: 4px;
         }
 
-        /* Detailed Dashboard Performance Metrics Panel */
         .metrics-grid-view {
             margin-top: 8px;
             background: white;
@@ -290,7 +281,6 @@
             font-style: italic;
         }
 
-        /* Strength Training Progression Cards Layout */
         .gym-grid-stack {
             display: grid;
             grid-template-columns: 1fr;
@@ -343,7 +333,6 @@
             margin-top: 2px;
         }
 
-        /* Fixed Mobile Footer Tab Bar Controller */
         .ios-tab-bar {
             position: fixed;
             bottom: 0;
@@ -388,7 +377,6 @@
         .app-view { display: none; }
         .app-view.active-view { display: block; }
 
-        /* Responsive Modal Sheet Engine Setup */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -398,7 +386,7 @@
             -webkit-backdrop-filter: blur(4px);
             z-index: 2000;
             justify-content: center;
-            align-items: flex-end; /* Mobile default bottom pull */
+            align-items: flex-end;
         }
         .modal-sheet {
             background: white;
@@ -463,9 +451,6 @@
             display: none;
         }
 
-        /* ---------------------------------------------------
-           DESKTOP LARGE DISPLAY MEDIA INJECTIONS
-           --------------------------------------------------- */
         @media (min-width: 850px) {
             body {
                 padding-top: 30px;
@@ -475,7 +460,6 @@
                 background-color: #f8fafc;
             }
 
-            /* Enable side-by-side app canvas architecture */
             .app-layout {
                 display: grid;
                 grid-template-columns: 280px 1fr;
@@ -483,7 +467,6 @@
                 align-items: start;
             }
 
-            /* Reveal Desktop Side Column Panel */
             .desktop-sidebar {
                 display: flex;
                 flex-direction: column;
@@ -544,12 +527,10 @@
                 color: white;
             }
 
-            /* Hide mobile standalone touch footer */
             .ios-tab-bar {
                 display: none !important;
             }
 
-            /* Reflow views into grid matrices */
             .calendar-grid-stack {
                 grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
             }
@@ -559,11 +540,10 @@
             }
 
             .month-scroller {
-                flex-wrap: wrap; /* Wrap pills instead of hiding via scroll */
+                flex-wrap: wrap;
                 overflow-x: visible;
             }
 
-            /* Center lightbox overlay configuration for large desktop viewports */
             .modal-overlay {
                 align-items: center;
             }
@@ -580,11 +560,9 @@
 <body>
 
 <div class="container">
-    
-    <div id="install-prompt-strip">📲 <b>iPhone Home Screen Setup:</b> Tap the Safari Share button below, then choose <b>"Add to Home Screen"</b> for a borderless fullscreen view!</div>
+    <div id="install-prompt-strip">📲 <b>Save Your Data Permanently:</b> Tap the Safari Share button, then choose <b>"Add to Home Screen"</b>. This gives the app a dedicated, permanent sandbox so your data never gets auto-deleted.</div>
 
     <div class="app-layout">
-        
         <aside class="desktop-sidebar">
             <div class="sidebar-brand">MacPherson Hub</div>
             <div class="sidebar-sub">2026 Sub-2hr Plan Ledger</div>
@@ -625,7 +603,7 @@
                 <div class="month-scroller" id="monthTabs"></div>
                 <div class="strategy-banner">
                     <div class="title" id="strat-month-lbl">Active Month Strategy</div>
-                    <div class="desc" id="strat-desc-lbl">Loading training guidelines...</div>
+                    <div class="desc" id="strat-desc-lbl">Loading guidelines...</div>
                 </div>
                 <button class="submit-btn" style="background: var(--secondary); margin-bottom: 20px; box-shadow:none; max-width:280px;" onclick="triggerAddModal()">+ Log Active Protocol</button>
                 <div id="calendarStackContainer" class="calendar-grid-stack"></div>
@@ -650,21 +628,20 @@
 
             <div id="view-sync" class="app-view">
                 <div class="week-card">
-                    <h3 style="font-weight:800; font-size:1.1rem; margin-bottom:8px;">💾 Database Ledger Copy</h3>
-                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Copy this serialized string and save it inside Apple Notes to secure your logs indefinitely.</p>
+                    <h3 style="font-weight:800; font-size:1.1rem; margin-bottom:8px;">💾 Ledger Vault Backup</h3>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Copy this text code periodically and keep it inside Apple Notes to ensure your custom log milestones are never lost permanently.</p>
                     <textarea id="rawExportBox" class="form-input" rows="8" readonly style="font-family:monospace; font-size:0.7rem; background:#fff; white-space:pre;"></textarea>
                     <button class="submit-btn" onclick="executeClipboardCopy()" style="background:var(--secondary); box-shadow:none; max-width:250px;">Copy Ledger Text</button>
                     
                     <div style="margin-top:24px; border-top:1px solid var(--border); padding-top:16px;">
                         <h3 style="font-weight:800; font-size:1.1rem; color:#ef4444; margin-bottom:4px;">Inject External Ledger Backup</h3>
-                        <textarea id="rawImportBox" class="form-input" rows="3" placeholder="Paste ledger text string here..."></textarea>
+                        <textarea id="rawImportBox" class="form-input" rows="3" placeholder="Paste saved notes text backup code string here..."></textarea>
                         <button class="submit-btn" onclick="executeLedgerImport()" style="background:#ef4444; box-shadow:none; max-width:280px;">Override & Restore Database</button>
                     </div>
-                    <button onclick="factoryResetDatabase()" style="display:block; margin:20px 0 0 0; color:#ef4444; font-size:0.8rem; font-weight:700; background:none; border:none; text-decoration:underline; cursor:pointer;">Revert System to PDF Factory Settings</button>
+                    <button onclick="factoryResetDatabase()" style="display:block; margin:20px 0 0 0; color:#ef4444; font-size:0.8rem; font-weight:700; background:none; border:none; text-decoration:underline; cursor:pointer;">Revert System to PDF Baseline Settings</button>
                 </div>
             </div>
         </main>
-
     </div>
 </div>
 
@@ -712,22 +689,22 @@
             <div style="background:#f1f5f9; padding:12px; border-radius:10px; margin-bottom:15px; border:1px solid var(--border);">
                 <h4 style="font-size:0.75rem; font-weight:800; color:var(--primary); text-transform:uppercase; margin-bottom:8px;">📊 Performance Tracking Records</h4>
                 <div class="form-grid-2">
-                    <div class="form-group"><label>Actual Mileage/Pace</label><input type="text" id="f-pace" class="form-input" placeholder="e.g. 7 miles @ 11:32/mi"></div>
-                    <div class="form-group"><label>Average Heart Rate</label><input type="text" id="f-hr" class="form-input" placeholder="e.g. 156bpm"></div>
+                    <div class="form-group"><label>Actual Mileage/Pace</label><input type="text" id="f-pace" class="form-input"></div>
+                    <div class="form-group"><label>Average Heart Rate</label><input type="text" id="f-hr" class="form-input"></div>
                 </div>
                 <div class="form-grid-2">
-                    <div class="form-group"><label>RPE (%)</label><input type="text" id="f-rpe" class="form-input" placeholder="e.g. 30%"></div>
-                    <div class="form-group"><label>Stride Length</label><input type="text" id="f-stride" class="form-input" placeholder="e.g. 0.88 m"></div>
+                    <div class="form-group"><label>RPE (%)</label><input type="text" id="f-rpe" class="form-input"></div>
+                    <div class="form-group"><label>Stride Length</label><input type="text" id="f-stride" class="form-input"></div>
                 </div>
                 <div class="form-grid-2">
-                    <div class="form-group"><label>Elevation Gain</label><input type="text" id="f-elev" class="form-input" placeholder="e.g. 458 ft"></div>
-                    <div class="form-group"><label>Pain Score (0-10)</label><input type="text" id="f-pain" class="form-input" placeholder="e.g. 0"></div>
+                    <div class="form-group"><label>Elevation Gain</label><input type="text" id="f-elev" class="form-input"></div>
+                    <div class="form-group"><label>Pain Score (0-10)</label><input type="text" id="f-pain" class="form-input"></div>
                 </div>
                 <div class="form-grid-2">
-                    <div class="form-group"><label>Weather Status</label><input type="text" id="f-weather" class="form-input" placeholder="e.g. 70° F sunny"></div>
-                    <div class="form-group"><label>Humidity (%)</label><input type="text" id="f-humidity" class="form-input" placeholder="e.g. 70%"></div>
+                    <div class="form-group"><label>Weather Status</label><input type="text" id="f-weather" class="form-input"></div>
+                    <div class="form-group"><label>Humidity (%)</label><input type="text" id="f-humidity" class="form-input"></div>
                 </div>
-                <div class="form-group" style="margin-bottom:0;"><label>Session Annotations / Log Notes</label><input type="text" id="f-comments" class="form-input" placeholder="Felt strong throughout..."></div>
+                <div class="form-group" style="margin-bottom:0;"><label>Session Annotations / Log Notes</label><input type="text" id="f-comments" class="form-input"></div>
             </div>
 
             <button type="submit" class="submit-btn">Commit Changes</button>
@@ -768,7 +745,6 @@
 </div>
 
 <script>
-    // BASELINE TRAINING MATRICES DIRECTLY HARDFILL FROM SPEC SHEETS
     const coreDefaultCalendar = {
         "MAY": {
             weeklyMiles: "May Training Logs & Diagnostic Buffers",
@@ -839,8 +815,8 @@
                 { id: "W1", label: "1st-2nd", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"7 Mile Long Run 9:45 pace"} },
                 { id: "W2", label: "3rd-9th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:{type:"race", text:"5k Race Verification Track (Goal: 7:49/mi)"}, sun:{type:"run", text:"3 Mile post race shake out run"} },
                 { id: "W3", label: "10th-16th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"5 Mile Long Run 9:30 pace"} },
-                { id: "W4", label: "17th-23rd", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"7 Mile Long Run 09:45 pace"} },
-                { id: "W5", label: "24th-30th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"8 Mile Long Run 09:30 pace"} },
+                { id: "W4", label: "17th-23rd", mon:"", tue:"", wed:"", thu:", fri:"", sat:"", sun:{type:"run", text:"7 Mile Long Run 09:45 pace"} },
+                { id: "W5", label: "24th-30th", mon:"", tue:"", wed:", thu:"", fri:"", sat:"", sun:{type:"run", text:"8 Mile Long Run 09:30 pace"} },
                 { id: "W6", label: "31st", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"9 Mile Long Run 09:10 pace"} }
             ]
         },
@@ -850,7 +826,7 @@
                 { id: "W1", label: "1st-6th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"10 Mile Long Run 9:30 pace"} },
                 { id: "W2", label: "7th-13th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"10 Mile Long Run 10:00 pace"} },
                 { id: "W3", label: "14th-20th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"11 Mile Long Run 9:00 pace"} },
-                { id: "W4", label: "21st-27th", mon:"", tue:"", wed:"", thu:", fri:"", sat:"", sun:{type:"run", text:"11 Mile Long Run 9:10 pace"} },
+                { id: "W4", label: "21st-27th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"11 Mile Long Run 9:10 pace"} },
                 { id: "W5", label: "28th-30th", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:{type:"run", text:"12 Mile Long Run 09:00 pace"} }
             ]
         },
@@ -911,21 +887,33 @@
         }
         setupAppleTouchIcon();
 
-        // Using a v3 isolated cache key to eliminate any corrupted structure conflicts from Safari memory
-        const cachedDb = localStorage.getItem('macpherson_ledger_v3');
-        if (cachedDb) {
-            try {
-                dbInstance = JSON.parse(cachedDb);
-                // Confirm base structural nodes exist
-                if (!dbInstance.calendar || !dbInstance.strength || !dbInstance.prs) {
-                    loadFactoryDefaultLedger();
-                }
-            } catch(e) {
-                loadFactoryDefaultLedger();
+        // 🌟 AUTOMATIC HISTORICAL SCAVENGER ENGINE 🌟
+        // Loops over past storage tracks to pull old data out of your cache automatically
+        const historicalKeys = ['macpherson_ledger', 'macpherson_ledger_v2', 'macpherson_ledger_v3', 'training_hub_ledger'];
+        let salvagedData = null;
+
+        for (const storageKey of historicalKeys) {
+            const rawData = localStorage.getItem(storageKey);
+            if (rawData) {
+                try {
+                    const parsed = JSON.parse(rawData);
+                    if (parsed.calendar || parsed.strength) {
+                        salvagedData = parsed;
+                        console.log("Successfully salvaged metrics folder: " + storageKey);
+                        break; 
+                    }
+                } catch(e) { console.log("Skipping partition lock..."); }
             }
+        }
+
+        if (salvagedData) {
+            dbInstance = salvagedData;
+            // Lock and synchronize it into the active container structure
+            localStorage.setItem('macpherson_ledger_v3', JSON.stringify(dbInstance));
         } else {
             loadFactoryDefaultLedger();
         }
+
         renderMonthSelectionTabs();
         buildFormDropdowns();
         refreshPrimaryUI();
@@ -948,7 +936,7 @@
             let link = document.createElement('link');
             link.rel = 'apple-touch-icon'; link.href = canvas.toDataURL();
             document.head.appendChild(link);
-        } catch(e) { console.log("Icon build bypassed"); }
+        } catch(e) { console.log("Icon dynamic build split complete"); }
     }
 
     function loadFactoryDefaultLedger() {
@@ -965,7 +953,7 @@
     }
 
     function factoryResetDatabase() {
-        if (confirm("Are you sure you want to restore the layout to the official PDF factory baseline configuration? Current customizations will be overwritten.")) {
+        if (confirm("Are you sure you want to completely clear out overrides and revert the baseline layout directly to the template?")) {
             loadFactoryDefaultLedger();
             refreshPrimaryUI();
         }
@@ -1034,7 +1022,6 @@
         const stratDescLbl = document.getElementById('strat-desc-lbl');
         if(stratDescLbl) stratDescLbl.innerText = monthData.weeklyMiles;
 
-        // Render Calendar Schedule Tab Details
         const stackContainer = document.getElementById('calendarStackContainer');
         if(stackContainer) {
             stackContainer.innerHTML = '';
@@ -1091,7 +1078,6 @@
             });
         }
 
-        // Render Multi-Week Spreadsheet Style Strength Cards
         const gymContainer = document.getElementById('gymExercisesContainer');
         if(gymContainer && dbInstance.strength[selectedGymDay]) {
             gymContainer.innerHTML = '';
@@ -1118,7 +1104,6 @@
             });
         }
 
-        // Render Milestones Book
         const prContainer = document.getElementById('prListContainer');
         if(prContainer) {
             prContainer.innerHTML = '';
@@ -1197,4 +1182,138 @@
         const comments = document.getElementById('f-comments'); if(comments) comments.value = dataObj.comments || '';
 
         const dBtn = document.getElementById('f-delete-btn'); if(dBtn) dBtn.style.display = "block";
-        const mOverlay =
+        const mOverlay = document.getElementById('sessionModal'); if(mOverlay) mOverlay.style.display = "flex";
+    }
+
+    function launchGymEditSheet(dayType, index) {
+        const targetExercise = dbInstance.strength[dayType][index];
+        if(!targetExercise) return;
+        
+        const gType = document.getElementById('g-type'); if(gType) gType.value = dayType;
+        const gIdx = document.getElementById('g-idx'); if(gIdx) gIdx.value = index;
+        const gName = document.getElementById('g-name'); if(gName) gName.value = targetExercise.name || '';
+        const gSets = document.getElementById('g-sets'); if(gSets) gSets.value = targetExercise.sets || '';
+        const gReps = document.getElementById('g-reps'); if(gReps) gReps.value = targetExercise.reps || '';
+        const gw1 = document.getElementById('g-w1'); if(gw1) gw1.value = targetExercise.w1 || '';
+        const gw2 = document.getElementById('g-w2'); if(gw2) gw2.value = targetExercise.w2 || '';
+        const gw3 = document.getElementById('g-w3'); if(gw3) gw3.value = targetExercise.w3 || '';
+        const gw4 = document.getElementById('g-w4'); if(gw4) gw4.value = targetExercise.w4 || '';
+        const gCue = document.getElementById('g-cue'); if(gCue) gCue.value = targetExercise.cue || '';
+        
+        const gymM = document.getElementById('gymModal'); if(gymM) gymM.style.display = "flex";
+    }
+
+    function closeSheetModal(id) { 
+        const el = document.getElementById(id);
+        if(el) el.style.display = "none"; 
+    }
+
+    function commitSessionForm(e) {
+        e.preventDefault();
+        const isEdit = document.getElementById('f-isEdit').value === "true";
+        const month = document.getElementById('f-month').value;
+        const week = parseInt(document.getElementById('f-week').value, 10);
+        const day = document.getElementById('f-day').value;
+
+        if (isEdit) {
+            const oM = document.getElementById('f-origMonth').value;
+            const oW = parseInt(document.getElementById('f-origWeek').value, 10);
+            const oD = document.getElementById('f-origDay').value;
+            if(dbInstance.calendar[oM] && dbInstance.calendar[oM].schedule[oW]) {
+                dbInstance.calendar[oM].schedule[oW][oD] = "";
+            }
+        }
+
+        if(!dbInstance.calendar[month]) dbInstance.calendar[month] = { weeklyMiles: "Custom Month Logs", schedule: [] };
+        
+        while (dbInstance.calendar[month].schedule.length <= week) {
+            dbInstance.calendar[month].schedule.push({ id: "WX", label: "Custom Range", mon:"", tue:"", wed:"", thu:"", fri:"", sat:"", sun:"" });
+        }
+
+        dbInstance.calendar[month].schedule[week][day] = {
+            type: document.getElementById('f-type').value,
+            text: document.getElementById('f-text').value,
+            pace: document.getElementById('f-pace').value,
+            hr: document.getElementById('f-hr').value,
+            rpe: document.getElementById('f-rpe').value,
+            stride: document.getElementById('f-stride').value,
+            elev: document.getElementById('f-elev').value,
+            pain: document.getElementById('f-pain').value,
+            weather: document.getElementById('f-weather').value,
+            humidity: document.getElementById('f-humidity').value,
+            comments: document.getElementById('f-comments').value
+        };
+
+        saveStateToStorage(); closeSheetModal('sessionModal'); currentActiveMonth = month; renderMonthSelectionTabs(); refreshPrimaryUI();
+    }
+
+    function executeDeleteSession() {
+        if(confirm("Confirm deletion of this workout record?")) {
+            const oM = document.getElementById('f-origMonth').value;
+            const oW = parseInt(document.getElementById('f-origWeek').value, 10);
+            const oD = document.getElementById('f-origDay').value;
+            if(dbInstance.calendar[oM] && dbInstance.calendar[oM].schedule[oW]) {
+                dbInstance.calendar[oM].schedule[oW][oD] = "";
+            }
+            saveStateToStorage(); closeSheetModal('sessionModal'); refreshPrimaryUI();
+        }
+    }
+
+    function commitGymForm(e) {
+        e.preventDefault();
+        const type = document.getElementById('g-type').value;
+        const idx = parseInt(document.getElementById('g-idx').value, 10);
+        
+        if(dbInstance.strength[type] && dbInstance.strength[type][idx]) {
+            dbInstance.strength[type][idx].sets = document.getElementById('g-sets').value;
+            dbInstance.strength[type][idx].reps = document.getElementById('g-reps').value;
+            dbInstance.strength[type][idx].w1 = document.getElementById('g-w1').value;
+            dbInstance.strength[type][idx].w2 = document.getElementById('g-w2').value;
+            dbInstance.strength[type][idx].w3 = document.getElementById('g-w3').value;
+            dbInstance.strength[type][idx].w4 = document.getElementById('g-w4').value;
+            dbInstance.strength[type][idx].cue = document.getElementById('g-cue').value;
+        }
+
+        saveStateToStorage(); closeSheetModal('gymModal'); refreshPrimaryUI();
+    }
+
+    function triggerPrUpdate(index) {
+        if(!dbInstance.prs[index]) return;
+        const newVal = prompt(`Update value record for ${dbInstance.prs[index].item}:`, dbInstance.prs[index].record);
+        if (newVal !== null) {
+            dbInstance.prs[index].record = newVal;
+            const newContext = prompt("Update context or lineage reference date:", dbInstance.prs[index].lineage);
+            if (newContext !== null) dbInstance.prs[index].lineage = newContext;
+            saveStateToStorage(); refreshPrimaryUI();
+        }
+    }
+
+    function executeClipboardCopy() {
+        const targetArea = document.getElementById('rawExportBox');
+        if(!targetArea) return;
+        targetArea.select(); targetArea.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(targetArea.value);
+        alert("Text database string copied to clipboard! Paste it inside an Apple Note.");
+    }
+
+    function executeLedgerImport() {
+        const inputString = document.getElementById('rawImportBox').value.trim();
+        try {
+            const parsedObj = JSON.parse(inputString);
+            if (parsedObj.calendar && parsedObj.strength && parsedObj.prs) {
+                dbInstance = parsedObj;
+                saveStateToStorage(); refreshPrimaryUI();
+                alert("Database state validation passed. UI updated seamlessly.");
+                document.getElementById('rawImportBox').value = '';
+            } else { alert("Malformed backup structure format."); }
+        } catch(err) { alert("Parsing error. Make sure the text layout matches the uncorrupted string."); }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeApplication);
+    } else {
+        initializeApplication();
+    }
+</script>
+</body>
+</html>
